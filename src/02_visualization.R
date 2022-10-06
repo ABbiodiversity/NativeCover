@@ -162,9 +162,22 @@ dev.off()
 # Correlation of the two 
 #
 
-ggplot(data = watershed.layer.combo, aes(x = UpCov, y = LowCov)) +
+correlation <- cor(watershed.layer.combo$UpCov, watershed.layer.combo$LowCov)
+
+png(paste0("results/figures/native-cover-correlation-2018HFI.png"),
+    width = 2400,
+    height = 2400, 
+    res = 300)
+
+print(ggplot(data = watershed.layer.combo, aes(x = UpCov, y = LowCov)) +
         geom_point() +
         geom_smooth() +
+        geom_abline(slope = 1) +
+        xlim(c(0,100)) +
+        ylim(c(0,100)) +
         xlab("Upland Cover") +
         ylab("Lowland Cover") +
-        theme_light()
+        ggtitle(paste("Correlation =", round(correlation, 3))) +
+        theme_light())
+
+dev.off()
