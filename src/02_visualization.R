@@ -157,3 +157,14 @@ ggplot() +
               legend.position = c(0.20, 0.15)) 
 
 dev.off()
+
+#
+# Correlation of the two 
+#
+
+ggplot(data = watershed.layer.combo, aes(x = UpCov, y = LowCov)) +
+        geom_point() +
+        geom_smooth() +
+        xlab("Upland Cover") +
+        ylab("Lowland Cover") +
+        theme_light()
