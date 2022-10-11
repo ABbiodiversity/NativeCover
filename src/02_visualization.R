@@ -1,10 +1,10 @@
 #
 # Title: Visualization of "terrestrial" and "aquatic" native cover
 # Created: June 6th, 2022
-# Last Updated: June 6th, 2022
+# Last Updated: October 11th, 2022
 # Author: Brandon Allen
 # Objectives: Visualize the two native cover indicators
-# Keywords: Notes, Native Cover ALPHA, Native Cover Combo
+# Keywords: Notes, Visualization
 #
 
 #########
@@ -12,11 +12,12 @@
 #########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 # 1) This analysis is run for each HUC 8 across the province.
-# 2) We are using the ABMI Alberta Wetland Inventory. It is assumed areas not delineated with "aquatic" habitats are upland
+# 2) We are using the ABMI Alberta Wetland Inventory. Areas not delineated as "aquatic" habitats are upland
+# 3) Areas that fall within the Lotic Riparian layer are also delineated as "aquatic"
 #
-######################
-# Native Cover ALPHA # 
-######################~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#################
+# Visualization # 
+#################~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Clear memory
 rm(list=ls())
@@ -28,11 +29,37 @@ library(ggplot2)
 library(MetBrewer)
 library(sf)
 
-watershed.layer <- read_sf("data/processed/2018/native_cover_2018.shp")
+# Load the results
+native.cover.2010 <- read_sf("data/processed/2010/native_cover_HFI2010.shp")
+native.cover.2018 <- read_sf("data/processed/2018/native_cover_HFI2018.shp")
 
 #
 # Terrestrial
 #
+
+png(paste0("results/figures/terrestrial-native-cover-HFI2010.png"),
+    width = 1800,
+    height = 2400, 
+    res = 300)
+
+ggplot() + 
+        geom_sf(data = native.cover.2010, aes(fill = UpCov), show.legend = TRUE) +
+        scale_fill_gradientn(name = paste0("Native Cover (%)"), colors = met.brewer(name = "Hiroshige", n = 100, type = "continuous"), guide = "colourbar") +
+        ggtitle(paste0("Terrestrial Native Cover")) + 
+        theme_light() +
+        theme_abmi(font = "Montserrat") +
+        theme(axis.title = element_text(size=12),
+              axis.text.x = element_text(size=12),
+              axis.text.y = element_text(size=12),
+              title = element_text(size=12), 
+              legend.title = element_text(size=12),
+              legend.text = element_text(size=12),
+              legend.key.size = unit(0.5, "cm"),
+              axis.line = element_line(colour = "black"),
+              panel.border = element_rect(colour = "black", fill=NA, size=1),
+              legend.position = c(0.20, 0.15)) 
+
+dev.off()
 
 png(paste0("results/figures/terrestrial-native-cover-HFI2018.png"),
     width = 1800,
@@ -40,7 +67,7 @@ png(paste0("results/figures/terrestrial-native-cover-HFI2018.png"),
     res = 300)
 
 ggplot() + 
-        geom_sf(data = watershed.layer, aes(fill = UpCov), show.legend = TRUE) +
+        geom_sf(data = native.cover.2018, aes(fill = UpCov), show.legend = TRUE) +
         scale_fill_gradientn(name = paste0("Native Cover (%)"), colors = met.brewer(name = "Hiroshige", n = 100, type = "continuous"), guide = "colourbar") +
         ggtitle(paste0("Terrestrial Native Cover")) + 
         theme_light() +
@@ -58,9 +85,54 @@ ggplot() +
 
 dev.off()
 
+terrestrial.trend <- data.frame(NC_2010 = native.cover.2010$UpCov,
+                                NC_2018 = native.cover.2018$UpCov)
+
+png(paste0("results/figures/terrestrial-native-cover-trend.png"),
+    width = 1800,
+    height = 1800, 
+    res = 300)
+
+ggplot(data = terrestrial.trend, aes(x = NC_2010, y = NC_2018)) + 
+        geom_point() +
+        ggtitle(paste0("Terrestrial Native Cover")) + 
+        geom_abline(slope = 1) +
+        ylim(c(0,100)) +
+        xlim(c(0,100)) +
+        xlab("Native Cover 2010") +
+        ylab("Native Cover 2018") +
+        theme_light() +
+        theme_abmi(font = "Montserrat")
+
+dev.off()
+
 #
 # Aquatic
 #
+
+png(paste0("results/figures/aquatic-native-cover-HFI2010.png"),
+    width = 1800,
+    height = 2400, 
+    res = 300)
+
+ggplot() + 
+        geom_sf(data = native.cover.2010, aes(fill = LowCov), show.legend = TRUE) +
+        scale_fill_gradientn(name = paste0("Native Cover (%)"), colors = met.brewer(name = "Hiroshige", n = 100, type = "continuous"), guide = "colourbar") +
+        ggtitle(paste0("Aquatic Native Cover")) + 
+        theme_light() +
+        theme_abmi(font = "Montserrat") +
+        theme(axis.title = element_text(size=12),
+              axis.text.x = element_text(size=12),
+              axis.text.y = element_text(size=12),
+              title = element_text(size=12), 
+              legend.title = element_text(size=12),
+              legend.text = element_text(size=12),
+              legend.key.size = unit(0.5, "cm"),
+              axis.line = element_line(colour = "black"),
+              panel.border = element_rect(colour = "black", fill=NA, size=1),
+              legend.position = c(0.20, 0.15)) 
+
+dev.off()
 
 png(paste0("results/figures/aquatic-native-cover-HFI2018.png"),
     width = 1800,
@@ -68,7 +140,7 @@ png(paste0("results/figures/aquatic-native-cover-HFI2018.png"),
     res = 300)
 
 ggplot() + 
-        geom_sf(data = watershed.layer, aes(fill = LowCov), show.legend = TRUE) +
+        geom_sf(data = native.cover.2018, aes(fill = LowCov), show.legend = TRUE) +
         scale_fill_gradientn(name = paste0("Native Cover (%)"), colors = met.brewer(name = "Hiroshige", n = 100, type = "continuous"), guide = "colourbar") +
         ggtitle(paste0("Aquatic Native Cover")) + 
         theme_light() +
@@ -86,98 +158,49 @@ ggplot() +
 
 dev.off()
 
-######################
-# Native Cover Combo # 
-######################~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+aquatic.trend <- data.frame(NC_2010 = native.cover.2010$LowCov,
+                                NC_2018 = native.cover.2018$LowCov)
+
+png(paste0("results/figures/aquatic-native-cover-trend.png"),
+    width = 1800,
+    height = 1800, 
+    res = 300)
+
+ggplot(data = aquatic.trend, aes(x = NC_2010, y = NC_2018)) + 
+        geom_point() +
+        ggtitle(paste0("Aquatic Native Cover")) + 
+        geom_abline(slope = 1) +
+        ylim(c(0,100)) +
+        xlim(c(0,100)) +
+        xlab("Native Cover 2010") +
+        ylab("Native Cover 2018") +
+        theme_light() +
+        theme_abmi(font = "Montserrat")
+
+dev.off()
+
+#
+# Aquatic versus Terrestrial comparison
+#
+
+png(paste0("results/figures/aquatic-terrestrial-2018.png"),
+    width = 1800,
+    height = 1800, 
+    res = 300)
+
+ggplot(data = native.cover.2018, aes(x = LowCov, y = UpCov)) + 
+        geom_point() +
+        ggtitle(paste0("Aquatic vs Terrestrial Cover")) + 
+        geom_abline(slope = 1) +
+        xlab("Aquatic Native Cover") +
+        ylab("Terrestrial Native Cover") +
+        ylim(c(0,100)) +
+        xlim(c(0,100)) +
+        theme_light() +
+        theme_abmi(font = "Montserrat")
+
+dev.off()
 
 # Clear memory
 rm(list=ls())
 gc()
-
-# Load libraries
-library(abmi.themes)
-library(ggplot2)
-library(MetBrewer)
-library(sf)
-
-watershed.layer <- read_sf("data/processed/2018/native_cover_combo_2018.shp")
-
-#
-# Terrestrial
-#
-
-png(paste0("results/figures/terrestrial-native-cover-combo-HFI2018.png"),
-    width = 1800,
-    height = 2400, 
-    res = 300)
-
-ggplot() + 
-        geom_sf(data = watershed.layer, aes(fill = UpCov), show.legend = TRUE) +
-        scale_fill_gradientn(name = paste0("Native Cover (%)"), colors = met.brewer(name = "Hiroshige", n = 100, type = "continuous"), guide = "colourbar") +
-        ggtitle(paste0("Terrestrial Native Cover")) + 
-        theme_light() +
-        theme_abmi(font = "Montserrat") +
-        theme(axis.title = element_text(size=12),
-              axis.text.x = element_text(size=12),
-              axis.text.y = element_text(size=12),
-              title = element_text(size=12), 
-              legend.title = element_text(size=12),
-              legend.text = element_text(size=12),
-              legend.key.size = unit(0.5, "cm"),
-              axis.line = element_line(colour = "black"),
-              panel.border = element_rect(colour = "black", fill=NA, size=1),
-              legend.position = c(0.20, 0.15)) 
-
-dev.off()
-
-#
-# Aquatic
-#
-
-png(paste0("results/figures/aquatic-native-cover-combo-HFI2018.png"),
-    width = 1800,
-    height = 2400, 
-    res = 300)
-
-ggplot() + 
-        geom_sf(data = watershed.layer, aes(fill = LowCov), show.legend = TRUE) +
-        scale_fill_gradientn(name = paste0("Native Cover (%)"), colors = met.brewer(name = "Hiroshige", n = 100, type = "continuous"), guide = "colourbar") +
-        ggtitle(paste0("Aquatic Native Cover")) + 
-        theme_light() +
-        theme_abmi(font = "Montserrat") +
-        theme(axis.title = element_text(size=12),
-              axis.text.x = element_text(size=12),
-              axis.text.y = element_text(size=12),
-              title = element_text(size=12), 
-              legend.title = element_text(size=12),
-              legend.text = element_text(size=12),
-              legend.key.size = unit(0.5, "cm"),
-              axis.line = element_line(colour = "black"),
-              panel.border = element_rect(colour = "black", fill=NA, size=1),
-              legend.position = c(0.20, 0.15)) 
-
-dev.off()
-
-#
-# Correlation of the two 
-#
-
-correlation <- cor(watershed.layer.combo$UpCov, watershed.layer.combo$LowCov)
-
-png(paste0("results/figures/native-cover-correlation-2018HFI.png"),
-    width = 2400,
-    height = 2400, 
-    res = 300)
-
-print(ggplot(data = watershed.layer.combo, aes(x = UpCov, y = LowCov)) +
-        geom_point() +
-        geom_smooth() +
-        geom_abline(slope = 1) +
-        xlim(c(0,100)) +
-        ylim(c(0,100)) +
-        xlab("Upland Cover") +
-        ylab("Lowland Cover") +
-        ggtitle(paste("Correlation =", round(correlation, 3))) +
-        theme_light())
-
-dev.off()
