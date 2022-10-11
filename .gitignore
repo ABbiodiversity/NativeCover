@@ -2,6 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
-/data/base/ 
-/data/processed/ 
-/beta/
+/data/**
+/docs/**
+/results/**
+/bookdown/**
+/beta/**
