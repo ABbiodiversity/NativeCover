@@ -1,7 +1,7 @@
 #
 # Title: Calculating of "terrestrial" and "aquatic" native cover
 # Created: June 3rd, 2022
-# Last Updated: October 7th, 2022
+# Last Updated: October 19th, 2022
 # Author: Brandon Allen
 # Objectives: Calculate percent native cover for both habitat classes
 # Keywords: Notes, Native Cover
@@ -43,6 +43,9 @@ watershed.layer$UpCur <- NA
 watershed.layer.2010 <- watershed.layer
 watershed.layer.2018 <- watershed.layer
 
+# Load recovery curves
+load("data/lookup/harvest-recovery.Rdata")
+
 ####################
 # Initialize arcpy #
 ####################
@@ -73,21 +76,25 @@ arcpy$env$parallelProcessingFactor <- "100%"
 
 for (HUC.id in watershed.ids) { 
         
-        # 2010 HFI
-        watershed.layer.2010 <- native_cover(landcover = "data/base/landcover/ABMIwetlandInventory.gdb/ABMIwetlandInventory", 
-                                             riparian = "data/base/landcover/LoticRiparianDigitalElevationModelDerived/Data/Shapefile/10TM_Offset/LoticRiparianDigitalElevationModelDerived.shp", 
-                                             boundaries = "data/base/boundaries/HUC_8_EPSG3400.shp", 
-                                             hfi.boundary = "data/base/footprint/HFI_2010_v1.gdb/HFI_2010_merged", 
-                                             huc.id = HUC.id, 
-                                             hfi.year = 2010, 
-                                             results = watershed.layer.2010, 
-                                             arcpy = arcpy)
+        # # 2010 HFI
+        # watershed.layer.2010 <- native_cover(landcover = "data/base/landcover/ABMIwetlandInventory.gdb/ABMIwetlandInventory", 
+        #                                      riparian = "data/base/landcover/LoticRiparianDigitalElevationModelDerived/Data/Shapefile/10TM_Offset/LoticRiparianDigitalElevationModelDerived.shp", 
+        #                                      hfi.inventory = "data/base/footprint/HFI_2010_v1.gdb/HFI_2010_merged", 
+        #                                      harvest.areas = "data/base/footprint/harvest_areas.gdb/harvested_2010HFI",
+        #                                      recovery.curve = harvest.recovery,
+        #                                      boundaries = "data/base/boundaries/HUC_8_EPSG3400.shp", 
+        #                                      huc.id = HUC.id, 
+        #                                      hfi.year = 2010, 
+        #                                      results = watershed.layer.2010, 
+        #                                      arcpy = arcpy)
         
         # 2018 HFI
         watershed.layer.2018 <- native_cover(landcover = "data/base/landcover/ABMIwetlandInventory.gdb/ABMIwetlandInventory", 
                                              riparian = "data/base/landcover/LoticRiparianDigitalElevationModelDerived/Data/Shapefile/10TM_Offset/LoticRiparianDigitalElevationModelDerived.shp", 
+                                             hfi.inventory = "data/base/footprint/HFI_2018_v1.gdb/HFI_2018", 
+                                             harvest.areas = "data/base/footprint/harvest_areas.gdb/harvested_2018HFI",
+                                             recovery.curve = harvest.recovery,
                                              boundaries = "data/base/boundaries/HUC_8_EPSG3400.shp", 
-                                             hfi.boundary = "data/base/footprint/HFI_2018_v1.gdb/HFI_2018", 
                                              huc.id = HUC.id, 
                                              hfi.year = 2018, 
                                              results = watershed.layer.2018, 
