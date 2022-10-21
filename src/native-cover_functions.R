@@ -1,7 +1,7 @@
 #
 # Title: Functions for calculating "terrestrial" and "aquatic" native cover
-# Created: October 7, 2022
-# Last Updated: October 19, 2022
+# Created: October 7th, 2022
+# Last Updated: October 21st, 2022
 # Author: Brandon Allen
 # Objectives: Define functions for calculating percent native cover
 # Keywords: Native cover
@@ -72,10 +72,10 @@ native_cover <- function(landcover, riparian, hfi.inventory, harvest.areas, reco
                              out_feature_class = "aquatic_current")
         
         # Calculate reference condition
-        results[results$HUC_8 == huc.id, "LowRef"] <- sum(st_area(read_sf(dsn = arcpy$env$workspace, 
-                                                                          layer =  "aquatic_reference")))
-        results[results$HUC_8 == huc.id, "UpRef"] <- sum(st_area(read_sf(dsn = arcpy$env$workspace, 
-                                                                         layer =  "terrestrial_reference")))
+        results[results$HUC_8 == huc.id, "LowRef"] <- as.numeric(sum(st_area(read_sf(dsn = arcpy$env$workspace, 
+                                                                          layer =  "aquatic_reference"))))
+        results[results$HUC_8 == huc.id, "UpRef"] <- as.numeric(sum(st_area(read_sf(dsn = arcpy$env$workspace, 
+                                                                         layer =  "terrestrial_reference"))))
         
         # Calculate current condition with harvest recovery for aquatic
         aquatic.current <- as.numeric(sum(st_area(read_sf(dsn = arcpy$env$workspace, 
@@ -85,20 +85,31 @@ native_cover <- function(landcover, riparian, hfi.inventory, harvest.areas, reco
                                    layer =  "aquatic_harvest")
 
         # Simplify into broad stand types and calculate age
-        aquatic.harvest <- data.frame(Habitat = aquatic.harvest$Combined_ChgByCWCS,
-                                      Year = aquatic.harvest$YEAR, 
-                                      Area = as.numeric(st_area(aquatic.harvest)),
-                                      Adjustment = NA)
         
-        aquatic.harvest$Habitat[aquatic.harvest$Habitat %in% c("Decid", "Mixedwood")] <- "Deciduous"
-        aquatic.harvest$Habitat[aquatic.harvest$Habitat %in% c("Fir", "Pine", "Spruce")] <- "Coniferous"
-        
-        aquatic.harvest$Year <- hfi.year - aquatic.harvest$Year
-        
-        aquatic.harvest$Adjustment[aquatic.harvest$Habitat == "Deciduous"] <- harvest.recovery$Deciduous[match(aquatic.harvest$Year[aquatic.harvest$Habitat == "Deciduous"], harvest.recovery$Age)]
-        aquatic.harvest$Adjustment[aquatic.harvest$Habitat == "Coniferous"] <- harvest.recovery$Coniferous[match(aquatic.harvest$Year[aquatic.harvest$Habitat == "Coniferous"], harvest.recovery$Age)]
-        
-        aquatic.harvest$AreaAdjusted <- aquatic.harvest$Area * (aquatic.harvest$Adjustment / 100)
+        # Flag instances where there is no harvest
+        if(nrow(aquatic.harvest) != 0) {
+                
+                aquatic.harvest <- data.frame(Habitat = aquatic.harvest$Combined_ChgByCWCS,
+                                              Year = aquatic.harvest$YEAR, 
+                                              Area = as.numeric(st_area(aquatic.harvest)),
+                                              Adjustment = NA)
+                
+                aquatic.harvest$Habitat[aquatic.harvest$Habitat %in% c("Decid", "Mixedwood")] <- "Deciduous"
+                aquatic.harvest$Habitat[aquatic.harvest$Habitat %in% c("AlpineLarch", "Fir", "Pine", "Spruce", "Conif")] <- "Coniferous"
+                
+                aquatic.harvest$Year <- hfi.year - aquatic.harvest$Year
+                
+                aquatic.harvest$Adjustment[aquatic.harvest$Habitat == "Deciduous"] <- harvest.recovery$Deciduous[match(aquatic.harvest$Year[aquatic.harvest$Habitat == "Deciduous"], harvest.recovery$Age)]
+                aquatic.harvest$Adjustment[aquatic.harvest$Habitat == "Coniferous"] <- harvest.recovery$Coniferous[match(aquatic.harvest$Year[aquatic.harvest$Habitat == "Coniferous"], harvest.recovery$Age)]
+                
+                aquatic.harvest <- sum(aquatic.harvest$Area * (aquatic.harvest$Adjustment / 100))
+                
+        } else {
+                
+                aquatic.harvest <- 0
+                
+        }
+
         
         # Calculate current condition with harvest recovery for terrestrial
         
@@ -108,28 +119,39 @@ native_cover <- function(landcover, riparian, hfi.inventory, harvest.areas, reco
         terrestrial.harvest <- read_sf(dsn = arcpy$env$workspace, 
                                    layer =  "terrestrial_harvest")
         
-        # Simplify into broad stand types and calculate age
-        terrestrial.harvest <- data.frame(Habitat = terrestrial.harvest$Combined_ChgByCWCS,
-                                      Year = terrestrial.harvest$YEAR, 
-                                      Area = as.numeric(st_area(terrestrial.harvest)),
-                                      Adjustment = NA)
+        if(nrow(terrestrial.harvest) != 0) { 
+                
+                # Simplify into broad stand types and calculate age
+                terrestrial.harvest <- data.frame(Habitat = terrestrial.harvest$Combined_ChgByCWCS,
+                                                  Year = terrestrial.harvest$YEAR, 
+                                                  Area = as.numeric(st_area(terrestrial.harvest)),
+                                                  Adjustment = NA)
+                
+                terrestrial.harvest$Habitat[terrestrial.harvest$Habitat %in% c("Decid", "Mixedwood")] <- "Deciduous"
+                terrestrial.harvest$Habitat[terrestrial.harvest$Habitat %in% c("AlpineLarch", "Fir", "Pine", "Spruce", "Conif")] <- "Coniferous"
+                
+                terrestrial.harvest$Year <- hfi.year - terrestrial.harvest$Year
+                
+                terrestrial.harvest$Adjustment[terrestrial.harvest$Habitat == "Deciduous"] <- harvest.recovery$Deciduous[match(terrestrial.harvest$Year[terrestrial.harvest$Habitat == "Deciduous"], harvest.recovery$Age)]
+                terrestrial.harvest$Adjustment[terrestrial.harvest$Habitat == "Coniferous"] <- harvest.recovery$Coniferous[match(terrestrial.harvest$Year[terrestrial.harvest$Habitat == "Coniferous"], harvest.recovery$Age)]
+                
+                terrestrial.harvest <- sum(terrestrial.harvest$Area * (terrestrial.harvest$Adjustment / 100))
+                
+        } else {
+                
+                terrestrial.harvest <- 0
+                
+        }
+                
+        # Add the adjusted forest stand areas
+        results[results$HUC_8 == huc.id, "LowCur"] <- aquatic.current + aquatic.harvest
+        results[results$HUC_8 == huc.id, "UpCur"] <- terrestrial.current + terrestrial.harvest
         
-        terrestrial.harvest$Habitat[terrestrial.harvest$Habitat %in% c("Decid", "Mixedwood")] <- "Deciduous"
-        terrestrial.harvest$Habitat[terrestrial.harvest$Habitat %in% c("Fir", "Pine", "Spruce")] <- "Coniferous"
+        # Calculate percent cover
+        results[results$HUC_8 == huc.id, "LowCov"] <- (results$LowCur[results$HUC_8 == huc.id] / results$LowRef[results$HUC_8 == huc.id]) * 100
+        results[results$HUC_8 == huc.id, "UpCov"] <- (results$UpCur[results$HUC_8 == huc.id] / results$UpRef[results$HUC_8 == huc.id]) * 100
         
-        terrestrial.harvest$Year <- hfi.year - terrestrial.harvest$Year
-        
-        terrestrial.harvest$Adjustment[terrestrial.harvest$Habitat == "Deciduous"] <- harvest.recovery$Deciduous[match(terrestrial.harvest$Year[terrestrial.harvest$Habitat == "Deciduous"], harvest.recovery$Age)]
-        terrestrial.harvest$Adjustment[terrestrial.harvest$Habitat == "Coniferous"] <- harvest.recovery$Coniferous[match(terrestrial.harvest$Year[terrestrial.harvest$Habitat == "Coniferous"], harvest.recovery$Age)]
-        
-        terrestrial.harvest$AreaAdjusted <- terrestrial.harvest$Area * (terrestrial.harvest$Adjustment / 100)
-        
-        
-        results[results$HUC_8 == huc.id, "LowCur"] <- aquatic.current + sum(aquatic.harvest$AreaAdjusted)
-
-        results[results$HUC_8 == huc.id, "UpCur"] <- terrestrial.current + sum(terrestrial.harvest$AreaAdjusted)
-        
-        # Remove all layers
+        # Remove layers that are no longer required
         arcpy$Delete_management(in_data = "boundary")
         arcpy$Delete_management(in_data = "footprint")
         arcpy$Delete_management(in_data = "wetland_inventory")
