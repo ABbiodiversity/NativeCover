@@ -107,6 +107,11 @@ for (HUC.id in watershed.ids) {
 
 }
 
+# Write comments
+comment(watershed.layer.2010) <- c("Native cover analysis based on the 2010 HFI",
+                                   "conducted on October 21st, 2022")
+comment(watershed.layer.2018) <- c("Native cover analysis based on the 2018 HFI",
+                                   "conducted on October 21st, 2022")
 # Save layers
 write_sf(watershed.layer.2010, dsn = "data/processed/2010/native_cover_HFI2010.shp")
 write_sf(watershed.layer.2018, dsn = "data/processed/2018/native_cover_HFI2018.shp")
