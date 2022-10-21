@@ -79,17 +79,6 @@ trend_plot(data.in = terrestrial.trend,
            y = "2018", 
            title = "Terrestrial Native Cover")
 
-ggplot(data = terrestrial.trend, aes(x = NC_2010, y = NC_2018)) + 
-        geom_point() +
-        ggtitle(paste0("Terrestrial Native Cover")) + 
-        geom_abline(slope = 1) +
-        ylim(c(0,100)) +
-        xlim(c(0,100)) +
-        xlab("Native Cover 2010") +
-        ylab("Native Cover 2018") +
-        theme_light() +
-        theme_abmi(font = "Montserrat")
-
 dev.off()
 
 #
@@ -124,8 +113,8 @@ png(paste0("results/figures/aquatic-native-cover-trend.png"),
     res = 300)
 
 trend_plot(data.in = aquatic.trend, 
-           x = "NC_2010", 
-           y = "NC_2018", 
+           x = "2010", 
+           y = "2018", 
            title = "Aquatic Native Cover")
 
 dev.off()
