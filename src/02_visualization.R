@@ -1,7 +1,7 @@
 #
 # Title: Visualization of "terrestrial" and "aquatic" native cover
 # Created: June 6th, 2022
-# Last Updated: October 11th, 2022
+# Last Updated: October 24th, 2022
 # Author: Brandon Allen
 # Objectives: Visualize the two native cover indicators
 # Keywords: Notes, Visualization, Forest recovery
@@ -38,10 +38,12 @@ native.cover.2018 <- read_sf("data/processed/2018/native_cover_HFI2018.shp")
 
 # Create the trend results
 terrestrial.trend <- data.frame(NC_2010 = native.cover.2010$UpCov,
-                                NC_2018 = native.cover.2018$UpCov)
+                                NC_2018 = native.cover.2018$UpCov,
+                                Difference = native.cover.2018$UpCov - native.cover.2010$UpCov)
 
 aquatic.trend <- data.frame(NC_2010 = native.cover.2010$LowCov,
-                            NC_2018 = native.cover.2018$LowCov)
+                            NC_2018 = native.cover.2018$LowCov,
+                            Difference = native.cover.2018$LowCov - native.cover.2010$LowCov)
 
 #
 # Terrestrial
@@ -81,6 +83,24 @@ trend_plot(data.in = terrestrial.trend,
 
 dev.off()
 
+png(paste0("results/figures/terrestrial-native-cover-histogram.png"),
+    width = 1800,
+    height = 1800, 
+    res = 300)
+
+ggplot(data = terrestrial.trend, aes(x = Difference, col = "#004f63", fill = "#004f63")) + 
+        geom_histogram(bins = 50, show.legend = FALSE) +
+        scale_color_manual(values = "#004f63") +
+        scale_fill_manual(values = "#004f63") +
+        ggtitle(paste0("Terrestrial Native Cover")) + 
+        xlab("Percent Change") +
+        ylab("Frequency") +
+        xlim(c(-12,1)) +
+        theme_light() +
+        theme_abmi(font = "Montserrat")
+
+dev.off()
+
 #
 # Aquatic
 #
@@ -116,6 +136,24 @@ trend_plot(data.in = aquatic.trend,
            x = "2010", 
            y = "2018", 
            title = "Aquatic Native Cover")
+
+dev.off()
+
+png(paste0("results/figures/aquatic-native-cover-histogram.png"),
+    width = 1800,
+    height = 1800, 
+    res = 300)
+
+ggplot(data = aquatic.trend, aes(x = Difference, col = "#004f63", fill = "#004f63")) + 
+        geom_histogram(bins = 50, show.legend = FALSE) +
+        scale_color_manual(values = "#004f63") +
+        scale_fill_manual(values = "#004f63") +
+        ggtitle(paste0("Terrestrial Native Cover")) + 
+        xlab("Percent Change") +
+        ylab("Frequency") +
+        xlim(c(-30,1)) +
+        theme_light() +
+        theme_abmi(font = "Montserrat")
 
 dev.off()
 
