@@ -148,7 +148,7 @@ ggplot(data = aquatic.trend, aes(x = Difference, col = "#004f63", fill = "#004f6
         geom_histogram(bins = 50, show.legend = FALSE) +
         scale_color_manual(values = "#004f63") +
         scale_fill_manual(values = "#004f63") +
-        ggtitle(paste0("Terrestrial Native Cover")) + 
+        ggtitle(paste0("Aquatic Native Cover")) + 
         xlab("Percent Change") +
         ylab("Frequency") +
         xlim(c(-30,1)) +
