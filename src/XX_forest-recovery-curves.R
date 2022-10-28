@@ -1,14 +1,14 @@
 #
-# Title: Standardize forest recovery curves
+# Title: Reference harvest area proportion
 # Created: October 26th, 2022
 # Last Updated: October 28th, 2022
 # Author: Brandon Allen
-# Objectives: Aggregate the standardized forest recovery curve for each NSR
-# Keywords: Notes, Forest recovery
+# Objectives: Calculate the reference area proportions (2010) for coniferous and deciduous stands in each natural subregion
+# Keywords: Notes, Forest proportions 
 
-###################
-# Forest recovery # 
-###################~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######################
+# Forest proportions # 
+######################~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Clear memory
 rm(list=ls())
@@ -51,9 +51,9 @@ arcpy$Select_analysis(in_features = "D:/backfill/Veg61_2010_HFI_2010v2_Grid_1KM.
                       out_feature_class = "forested", 
                       where_clause =  paste0('"Combined_ChgByCWCS" IN ', "('AlpineLarch', 'Fir', 'Pine', 'Spruce', 'Conif', 'Decid', 'Mixedwood')"))
 
-nsr.results <- data.frame(NSR = region.list,
-                          Coniferous = NA,
-                          Deciduous = NA)
+harvest.areas <- data.frame(NSR = region.list,
+                            Coniferous = NA,
+                            Deciduous = NA)
 
 for (nsr in region.list) {
         
@@ -76,8 +76,8 @@ for (nsr in region.list) {
         
         # Area calculate
         total.area <- sum(as.numeric(st_area(veg.in)))
-        nsr.results[nsr.results$NSR == nsr, "Coniferous"] <- (sum(as.numeric(st_area(veg.in[veg.in$Combined_ChgByCWCS %in% c("AlpineLarch", "Fir", "Pine", "Spruce", "Conif"), ]))) / total.area) * 100
-        nsr.results[nsr.results$NSR == nsr, "Deciduous"] <- (sum(as.numeric(st_area(veg.in[veg.in$Combined_ChgByCWCS %in% c("Decid", "Mixedwood"), ]))) / total.area) * 100
+        harvest.areas[harvest.areas$NSR == nsr, "Coniferous"] <- (sum(as.numeric(st_area(veg.in[veg.in$Combined_ChgByCWCS %in% c("AlpineLarch", "Fir", "Pine", "Spruce", "Conif"), ]))) / total.area) * 100
+        harvest.areas[harvest.areas$NSR == nsr, "Deciduous"] <- (sum(as.numeric(st_area(veg.in[veg.in$Combined_ChgByCWCS %in% c("Decid", "Mixedwood"), ]))) / total.area) * 100
         
         # Remove layers that are no longer required
         arcpy$Delete_management(in_data = "boundary")
@@ -89,14 +89,14 @@ for (nsr in region.list) {
 }
 
 # There there is no harvest within a natural subregion, fix the proportions to 0
-nsr.results$Coniferous[is.na(nsr.results$Coniferous)] <- 0
-nsr.results$Deciduous[is.na(nsr.results$Deciduous)] <- 0
+harvest.areas$Coniferous[is.na(harvest.areas$Coniferous)] <- 0
+harvest.areas$Deciduous[is.na(harvest.areas$Deciduous)] <- 0
 
-comment(nsr.results) <- c("Proportions of coniferous and deciduous stands based on 2010 harvested distribution.",
+comment(harvest.areas) <- c("Proportions of coniferous and deciduous stands based on 2010 harvested distribution.",
                           "This was chosen because 2010 is the reference condition for the BMF indicator.",
                           "Backfill version 6.1, HFI 2010",
                           "Calculated October 28th, 2022.")
-save(nsr.results, file = "data/lookup/forest-areas_2010HFI.Rdata")
+save(harvest.areas, file = "data/lookup/forest-areas_2010HFI.Rdata")
 
 rm(list=ls())
 gc()
