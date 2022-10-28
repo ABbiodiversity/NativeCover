@@ -48,7 +48,7 @@ watershed.layer.2018 <- watershed.layer
 
 # Load recovery curves
 load("data/lookup/harvest-recovery.Rdata")
-load("data/lookup/forest-areas.Rdata")
+load("data/lookup/harvest-stand-areas_2010HFI.Rdata")
 
 ####################
 # Initialize arcpy #

@@ -96,7 +96,7 @@ comment(harvest.areas) <- c("Proportions of coniferous and deciduous stands base
                           "This was chosen because 2010 is the reference condition for the BMF indicator.",
                           "Backfill version 6.1, HFI 2010",
                           "Calculated October 28th, 2022.")
-save(harvest.areas, file = "data/lookup/forest-areas_2010HFI.Rdata")
+save(harvest.areas, file = "data/lookup/harvest-stand-areas_2010HFI.Rdata")
 
 rm(list=ls())
 gc()
