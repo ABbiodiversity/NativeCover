@@ -47,7 +47,7 @@ natural.subregions <- read_sf("data/base/boundaries/Natural_Regions_Subregions_o
 region.list <- unique(natural.subregions$NSRNAME)
 
 # Select all of the forested areas from the backfill layer
-arcpy$Select_analysis(in_features = "D:/backfill/veg61hf2018_bdqt.gdb/veg61hf2018_BDQT_mtos", 
+arcpy$Select_analysis(in_features = "D:/backfill/Veg61_2010_HFI_2010v2_Grid_1KM.gdb/Veg61_2010_HFI_2010v2_Grid_1KM_GenHabTY", 
                       out_feature_class = "forested", 
                       where_clause =  paste0('"Combined_ChgByCWCS" IN ', "('AlpineLarch', 'Fir', 'Pine', 'Spruce', 'Conif', 'Decid', 'Mixedwood')"))
 
@@ -92,10 +92,11 @@ for (nsr in region.list) {
 nsr.results$Coniferous[is.na(nsr.results$Coniferous)] <- 0
 nsr.results$Deciduous[is.na(nsr.results$Deciduous)] <- 0
 
-comment(nsr.results) <- c("Proportions of coniferous and deciduous stands based on 2018 harvested distribution.",
-                          "Backfill version 6.1, HFI 2018",
+comment(nsr.results) <- c("Proportions of coniferous and deciduous stands based on 2010 harvested distribution.",
+                          "This was chosen because 2010 is the reference condition for the BMF indicator.",
+                          "Backfill version 6.1, HFI 2010",
                           "Calculated October 28th, 2022.")
-save(nsr.results, file = "data/lookup/forest-areas_2018.Rdata")
+save(nsr.results, file = "data/lookup/forest-areas_2010HFI.Rdata")
 
 rm(list=ls())
 gc()
