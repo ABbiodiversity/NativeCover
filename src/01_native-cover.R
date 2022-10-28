@@ -114,8 +114,8 @@ for (HUC.id in watershed.ids) {
 }
 
 # Save layers
-write_sf(watershed.layer.2010, dsn = "data/processed/2010/native_cover_HFI2010.shp")
-write_sf(watershed.layer.2018, dsn = "data/processed/2018/native_cover_HFI2018.shp")
+write_sf(watershed.layer.2010, dsn = "results/gis/2010/native_cover_HFI2010.shp")
+write_sf(watershed.layer.2018, dsn = "results/gis/2018/native_cover_HFI2018.shp")
 
 rm(list=ls())
 gc()
