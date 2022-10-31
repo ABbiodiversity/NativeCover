@@ -1,10 +1,10 @@
 #
 # Title: Visualization of "terrestrial" and "aquatic" native cover
 # Created: June 6th, 2022
-# Last Updated: October 24th, 2022
+# Last Updated: October 31st, 2022
 # Author: Brandon Allen
 # Objectives: Visualize the two native cover indicators
-# Keywords: Notes, Visualization, Forest recovery
+# Keywords: Notes, Visualization, Forest recovery,
 #
 
 #########
@@ -33,8 +33,8 @@ library(sf)
 source("src/visualization_functions.R")
 
 # Load the results
-native.cover.2010 <- read_sf("data/processed/2010/native_cover_HFI2010.shp")
-native.cover.2018 <- read_sf("data/processed/2018/native_cover_HFI2018.shp")
+native.cover.2010 <- read_sf("results/gis/2010/native_cover_HFI2010.shp")
+native.cover.2018 <- read_sf("results/gis/2018/native_cover_HFI2018.shp")
 
 # Create the trend results
 terrestrial.trend <- data.frame(NC_2010 = native.cover.2010$UpCov,
@@ -93,7 +93,7 @@ ggplot(data = terrestrial.trend, aes(x = Difference, col = "#004f63", fill = "#0
         scale_color_manual(values = "#004f63") +
         scale_fill_manual(values = "#004f63") +
         ggtitle(paste0("Terrestrial Native Cover")) + 
-        xlab("Percent Change") +
+        xlab("Percent Change (%)") +
         ylab("Frequency") +
         xlim(c(-12,1)) +
         theme_light() +
@@ -149,7 +149,7 @@ ggplot(data = aquatic.trend, aes(x = Difference, col = "#004f63", fill = "#004f6
         scale_color_manual(values = "#004f63") +
         scale_fill_manual(values = "#004f63") +
         ggtitle(paste0("Aquatic Native Cover")) + 
-        xlab("Percent Change") +
+        xlab("Percent Change (%)") +
         ylab("Frequency") +
         xlim(c(-30,1)) +
         theme_light() +
@@ -170,8 +170,8 @@ ggplot(data = native.cover.2018, aes(x = LowCov, y = UpCov)) +
         geom_point() +
         ggtitle(paste0("Aquatic vs Terrestrial Cover")) + 
         geom_abline(slope = 1) +
-        xlab("Aquatic Native Cover") +
-        ylab("Terrestrial Native Cover") +
+        xlab("Aquatic Native Cover (%)") +
+        ylab("Terrestrial Native Cover (%)") +
         ylim(c(0,100)) +
         xlim(c(0,100)) +
         theme_light() +
@@ -196,15 +196,15 @@ library(MetBrewer)
 source("src/visualization_functions.R")
 
 # Load data
-load("data/lookup/harvest-recovery.Rdata")
+load("data/lookup/harvest-recovery-curves.Rdata")
 
 # Standardize the data
 harvest.recovery <- data.frame(Stand = c(rep("Deciduous", 101), 
                                          rep("Coniferous", 101)),
-                               Age = c(harvest.recovery$Age, 
-                                       harvest.recovery$Age),
-                               Recovery = c(harvest.recovery$Deciduous,
-                                            harvest.recovery$Coniferous))
+                               Age = c(recovery.curve$Age, 
+                                       recovery.curve$Age),
+                               Recovery = c(recovery.curve$Deciduous,
+                                            recovery.curve$Coniferous))
 
 # Visualize
 png(paste0("results/figures/forest-recovery-curves.png"),
@@ -225,3 +225,59 @@ ggplot(data = harvest.recovery, aes(x = Age, y = Recovery, fill = Stand, col = S
         theme_abmi(font = "Montserrat")
 
 dev.off()
+
+##################################
+# Simple versus complex recovery #
+##################################
+
+# Load final results and previous iteration
+native.cover.2018 <- read_sf("results/gis/2018/native_cover_HFI2018.shp")
+native.cover.2018.old <- read_sf("beta/backfil-recovery-curve//native_cover_HFI2018.shp")
+
+# Create the trend results
+terrestrial.trend <- data.frame(Simplified = native.cover.2018$UpCov,
+                                Backfill = native.cover.2018.old$UpCov)
+
+aquatic.trend <- data.frame(Simplified = native.cover.2018$LowCov,
+                            Backfill = native.cover.2018.old$LowCov)
+
+png(paste0("results/figures/terrestrial-recovery-method-comparison-2018.png"),
+    width = 1800,
+    height = 1800, 
+    res = 300)
+
+ggplot(data = terrestrial.trend, aes(x = Backfill, y = Simplified)) + 
+        geom_point() +
+        ggtitle(paste0("Terrestrial Native Cover (%)")) + 
+        geom_abline(slope = 1) +
+        xlab("Complex recovery curves") +
+        ylab("Simplified recovery curves") +
+        ylim(c(0,100)) +
+        xlim(c(0,100)) +
+        theme_light() +
+        theme_abmi(font = "Montserrat")
+
+dev.off()
+
+png(paste0("results/figures/aquatic-recovery-method-comparison-2018.png"),
+    width = 1800,
+    height = 1800, 
+    res = 300)
+
+ggplot(data = aquatic.trend, aes(x = Backfill, y = Simplified)) + 
+        geom_point() +
+        ggtitle(paste0("Aquatic Native Cover (%)")) + 
+        geom_abline(slope = 1) +
+        xlab("Complex recovery curves") +
+        ylab("Simplified recovery curves") +
+        ylim(c(0,100)) +
+        xlim(c(0,100)) +
+        theme_light() +
+        theme_abmi(font = "Montserrat")
+
+dev.off()
+
+rm(list=ls())
+gc()
+
+

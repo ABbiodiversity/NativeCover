@@ -1,7 +1,7 @@
 #
 # Title: Functions for visualizing native cover
-# Created: October 19, 2022
-# Last Updated: October 19, 2022
+# Created: October 19th, 2022
+# Last Updated: October 31st, 2022
 # Author: Brandon Allen
 # Objectives: Define functions for visualizing native cover
 # Keywords: Native cover, Trend
@@ -44,8 +44,8 @@ trend_plot <- function(data.in, x, y, title) {
                 geom_abline(slope = 1) +
                 ylim(c(0,100)) +
                 xlim(c(0,100)) +
-                xlab(paste0("Native Cover ", x)) +
-                ylab(paste0("Native Cover ", y)) +
+                xlab(paste0("Native Cover ", x, "(%)")) +
+                ylab(paste0("Native Cover ", y, "(%)")) +
                 theme_light() +
                 theme_abmi(font = "Montserrat")
 }

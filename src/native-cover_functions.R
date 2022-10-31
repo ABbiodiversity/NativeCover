@@ -11,7 +11,7 @@
 # Native cover # 
 ################~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-native_cover_simple <- function(landcover, riparian, hfi.inventory, harvest.areas, recovery.curve, boundaries, huc.id, hfi.year, results, arcpy) {
+native_cover <- function(landcover, riparian, hfi.inventory, harvest.areas, recovery.curve, boundaries, huc.id, hfi.year, results, arcpy) {
         
         # Define the geodatabase for storing results
         arcpy$CreateFileGDB_management(out_folder_path = paste0(getwd(), "/data/processed/", hfi.year, "/gis/"), 

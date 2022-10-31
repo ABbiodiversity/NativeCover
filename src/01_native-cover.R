@@ -47,7 +47,7 @@ watershed.layer.2010 <- watershed.layer
 watershed.layer.2018 <- watershed.layer
 
 # Load recovery curves
-load("data/lookup/harvest-recovery.Rdata")
+load("data/lookup/harvest-recovery-curves.Rdata")
 load("data/lookup/harvest-stand-areas_2010HFI.Rdata")
 
 ####################
