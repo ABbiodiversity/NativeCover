@@ -52,15 +52,16 @@ native_cover <- function(landcover, riparian, hfi.inventory, harvest.areas, reco
                                out_feature_class = "terrestrial_reference")
         
         # Pull out the harvest areas from the footprint data
-        if (hfi.year == 2010) {
-                
-                harvest.id <- "CUTBLOCK"
-                
-        } else {
-                      
-                harvest.id <- "HARVEST-AREA"  
-                
-        }
+        harvest.id <- "HARVEST-AREA"  # HFI 2010 uses the same names as 2018
+        # if (hfi.year == 2010) {
+        #         
+        #         harvest.id <- "CUTBLOCK"
+        #         
+        # } else {
+        #               
+        #         harvest.id <- "HARVEST-AREA"  
+        #         
+        # }
         
         arcpy$Select_analysis(in_features = "footprint", 
                               out_feature_class = "harvested", 
