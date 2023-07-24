@@ -1,7 +1,7 @@
 #
 # Title: Functions for calculating "terrestrial" and "aquatic" native cover
 # Created: October 7th, 2022
-# Last Updated: October 28th, 2022
+# Last Updated: July 24th, 2023
 # Author: Brandon Allen
 # Objectives: Define functions for calculating percent native cover
 # Keywords: Native cover
@@ -114,6 +114,9 @@ native_cover <- function(landcover, riparian, hfi.inventory, harvest.areas, reco
                 # Calculate age
                 aquatic.harvest$Age <- hfi.year - aquatic.harvest$Year
                 
+                # If age is greater than the maximum age present in the recovery curve, set to the max
+                aquatic.harvest$Age[aquatic.harvest$Age > max(recovery.curve$Age)] <- max(recovery.curve$Age)
+                
                 # Define blank value
                 aquatic.harvest.area <- 0
                 
@@ -162,6 +165,9 @@ native_cover <- function(landcover, riparian, hfi.inventory, harvest.areas, reco
                                                   Adjustment = NA)
                 # Calculate age
                 terrestrial.harvest$Age <- hfi.year - terrestrial.harvest$Year
+                
+                # If age is greater than the maximum age present in the recovery curve, set to the max
+                terrestrial.harvest$Age[terrestrial.harvest$Age > max(recovery.curve$Age)] <- max(recovery.curve$Age)
                 
                 # Define blank value
                 terrestrial.harvest.area <- 0
