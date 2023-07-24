@@ -1,7 +1,7 @@
 #
 # Title: Calculating the terrestrial and aquatic native cover indicator
 # Created: June 3rd, 2022
-# Last Updated: October 28th, 2022
+# Last Updated: July 24th, 2023
 # Author: Brandon Allen
 # Objectives: Calculate percent native cover for both habitat classes
 # Keywords: Notes, Native Cover
@@ -45,10 +45,12 @@ watershed.layer$LowCov <- NA
 # Create a version for 2010 and 2018
 watershed.layer.2010 <- watershed.layer
 watershed.layer.2018 <- watershed.layer
+watershed.layer.2019 <- watershed.layer
+watershed.layer.2020 <- watershed.layer
 
 # Load recovery curves
 load("data/lookup/harvest-recovery-curves.Rdata")
-load("data/lookup/harvest-stand-areas_2010HFI.Rdata")
+load("data/lookup/harvest-stand-areas_2010HFI_v7.Rdata")
 
 ####################
 # Initialize arcpy #
@@ -66,28 +68,16 @@ arcpy <- import('arcpy')
 # Define parallel processing factor
 arcpy$env$parallelProcessingFactor <- "100%"
 
-# Create a merged 2010 HFI layer (Created on October 7, 2022)
-# Define workspace
-# arcpy$env$workspace <- paste0(getwd(), "/data/base/footprint/HFI_2010_v1.gdb")
-# 
-# Create a single merged 2010 HFI
-# arcpy$Merge_management(inputs = "HFI_2010_Sublayers/o01_Reservoirs_HFI2010; HFI_2010_Sublayers/o02_BPSDL_HFI2010; HFI_2010_Sublayers/o03_Roads_HFI2010; HFI_2010_Sublayers/o04_Railways_HFI2010; HFI_2010_Sublayers/o05_Canals_HFI2010; HFI_2010_Sublayers/o06_Verge_HFI2010; HFI_2010_Sublayers/o07_Mine_Sites_HFI2010; HFI_2010_Sublayers/o08_Industrial_Sites_HFI2010; HFI_2010_Sublayers/o09_WellSites_Active_HFI2010; HFI_2010_Sublayers/o10_Landfill_HFI2010; HFI_2010_Sublayers/o11_OtherVegSurfacesRecreation_HFI2010; HFI_2010_Sublayers/o12_Wind_Gen_Facilities_HFI2010; HFI_2010_Sublayers/o13_TransmissionLines_HFI2010; HFI_2010_Sublayers/o14_CFO_HFI2010; HFI_2010_Sublayers/o15_Residential_Areas_HFI2010; HFI_2010_Sublayers/o16_WellSites_Abandoned_HFI2010; HFI_2010_Sublayers/o17_Cultivation_HFI2010; HFI_2010_Sublayers/o18_HarvestAreas_HFI2010; HFI_2010_Sublayers/o20_SeismicLines_HFI2010; HFI_2010_Sublayers/o21_DisturbedVegetation_HFI2010", 
-#                        output = "HFI_2010_merged")
-
-# Create a merged Natural subregion by watershed unit layer (Created on October 28th,)
-# arcpy$Intersect_analysis(in_features = "data/base/boundaries/HUC_8_EPSG3400.shp; data/base/boundaries/Natural_Regions_Subregions_of_Alberta.shp", 
-#                          out_feature_class = "data/base/boundaries/HUC_8_NSR.shp")
-
 ############################
 # Native Cover Calculation # 
 ############################
 
 for (HUC.id in watershed.ids) { 
         
-        # 2010 HFI
+        # 2010 HFI 
         watershed.layer.2010 <- native_cover(landcover = "data/base/landcover/ABMIwetlandInventory.gdb/ABMIwetlandInventory",
                                              riparian = "data/base/landcover/LoticRiparianDigitalElevationModelDerived/Data/Shapefile/10TM_Offset/LoticRiparianDigitalElevationModelDerived.shp",
-                                             hfi.inventory = "data/base/footprint/HFI_2010_v1.gdb/HFI_2010_merged",
+                                             hfi.inventory = "data/base/footprint/HFI_2010_Updated2023.gdb/HFI2010_Integrated",
                                              harvest.areas = harvest.areas,
                                              recovery.curve = recovery.curve,
                                              boundaries = "data/base/boundaries/HUC_8_NSR.shp",
@@ -108,6 +98,30 @@ for (HUC.id in watershed.ids) {
                                              results = watershed.layer.2018, 
                                              arcpy = arcpy)
         
+        # 2019 HFI
+        watershed.layer.2019 <- native_cover(landcover = "data/base/landcover/ABMIwetlandInventory.gdb/ABMIwetlandInventory", 
+                                             riparian = "data/base/landcover/LoticRiparianDigitalElevationModelDerived/Data/Shapefile/10TM_Offset/LoticRiparianDigitalElevationModelDerived.shp", 
+                                             hfi.inventory = "data/base/footprint/HFI_2019_v2.gdb/HFI_2019_v2", 
+                                             harvest.areas = harvest.areas,
+                                             recovery.curve = recovery.curve,
+                                             boundaries = "data/base/boundaries/HUC_8_NSR.shp", 
+                                             huc.id = HUC.id, 
+                                             hfi.year = 2019, 
+                                             results = watershed.layer.2019, 
+                                             arcpy = arcpy)
+        
+        # 2020 HFI
+        watershed.layer.2020 <- native_cover(landcover = "data/base/landcover/ABMIwetlandInventory.gdb/ABMIwetlandInventory", 
+                                             riparian = "data/base/landcover/LoticRiparianDigitalElevationModelDerived/Data/Shapefile/10TM_Offset/LoticRiparianDigitalElevationModelDerived.shp", 
+                                             hfi.inventory = "data/base/footprint/HFI_2020.gdb/HFI2020_Integrated", 
+                                             harvest.areas = harvest.areas,
+                                             recovery.curve = recovery.curve,
+                                             boundaries = "data/base/boundaries/HUC_8_NSR.shp", 
+                                             huc.id = HUC.id, 
+                                             hfi.year = 2020, 
+                                             results = watershed.layer.2020, 
+                                             arcpy = arcpy)
+        
         
         print(HUC.id)
         
@@ -116,6 +130,8 @@ for (HUC.id in watershed.ids) {
 # Save layers
 write_sf(watershed.layer.2010, dsn = "results/gis/2010/native_cover_HFI2010.shp")
 write_sf(watershed.layer.2018, dsn = "results/gis/2018/native_cover_HFI2018.shp")
+write_sf(watershed.layer.2019, dsn = "results/gis/2018/native_cover_HFI2019.shp")
+write_sf(watershed.layer.2020, dsn = "results/gis/2018/native_cover_HFI2020.shp")
 
 rm(list=ls())
 gc()
