@@ -47,6 +47,7 @@ trend_plot <- function(data.in, x, y, title) {
                 xlab(paste0("Native Cover ", x, " (%)")) +
                 ylab(paste0("Native Cover ", y, " (%)")) +
                 theme_light() +
+                theme(axis.title = element_text(size=12)) +
                 theme_abmi(font = "Montserrat")
 }
 
