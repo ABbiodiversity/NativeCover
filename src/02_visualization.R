@@ -100,6 +100,9 @@ trend.histogram <- ggplot(data = terrestrial.trend, aes(x = Difference, col = "#
         geom_vline(xintercept = 0) +
         xlim(c(-15,5)) +
         theme_light() +
+        theme(axis.title = element_text(size=12),
+              legend.title = element_text(size=12),
+              legend.text = element_text(size=12)) +
         theme_abmi(font = "Montserrat")
 
 
@@ -161,6 +164,7 @@ trend.histogram <- ggplot(data = aquatic.trend, aes(x = Difference, col = "#004f
         geom_vline(xintercept = 0) +
         xlim(c(-15,5)) +
         theme_light() +
+        theme(axis.title = element_text(size=12)) +
         theme_abmi(font = "Montserrat")
 
 
@@ -184,6 +188,7 @@ aquatic.vs.terrestiral <- ggplot(data = native.cover.2020, aes(x = LowCov, y = U
         ylim(c(0,100)) +
         xlim(c(0,100)) +
         theme_light() +
+        theme(axis.title = element_text(size=12)) +
         theme_abmi(font = "Montserrat")
 
 ggsave(filename = "results/figures/support/aquatic-terrestrial-2020.png",
@@ -230,6 +235,9 @@ recovery.curve <- ggplot(data = harvest.recovery, aes(x = Age, y = Recovery, fil
         ylim(c(0,100)) +
         xlim(c(0,80)) +
         theme_light() +
+        theme(axis.title = element_text(size=12),
+              legend.title = element_text(size=12),
+              legend.text = element_text(size=12)) +
         theme_abmi(font = "Montserrat")
 
 ggsave(filename = "results/figures/support/forest-recovery-curves.png",
@@ -275,6 +283,7 @@ terrestrial.figure <- ggplot(data = terrestrial.trend, aes(x = Backfill, y = Sim
         ylim(c(0,100)) +
         xlim(c(0,100)) +
         theme_light() +
+        theme(axis.title = element_text(size=12)) +
         theme_abmi(font = "Montserrat")
 
 ggsave(filename = "results/figures/support/terrestrial-recovery-method-comparison-2018.png",
@@ -293,6 +302,7 @@ aquatic.figure <- ggplot(data = aquatic.trend, aes(x = Backfill, y = Simplified)
         ylim(c(0,100)) +
         xlim(c(0,100)) +
         theme_light() +
+        theme(axis.title = element_text(size=12)) +
         theme_abmi(font = "Montserrat")
 
 ggsave(filename = "results/figures/support/aquatic-recovery-method-comparison-2018.png",
