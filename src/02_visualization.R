@@ -1,7 +1,7 @@
 #
 # Title: Visualization of "terrestrial" and "aquatic" native cover
 # Created: June 6th, 2022
-# Last Updated: July 26th, 2023
+# Last Updated: August 1st, 2023
 # Author: Brandon Allen
 # Objectives: Visualize the two native cover indicators
 # Keywords: Notes, Visualization, Forest recovery, Simple versus complex recovery
@@ -48,25 +48,29 @@ aquatic.trend <- data.frame(NC_2010 = native.cover.2010$LowCov,
                             NC_2020 = native.cover.2020$LowCov,
                             Difference = native.cover.2020$LowCov - native.cover.2010$LowCov)
 
+# Calculate the differences
+native.cover.2020$UpDiff <- native.cover.2020$UpCov - native.cover.2010$UpCov
+native.cover.2020$LowDiff <- native.cover.2020$LowCov - native.cover.2010$LowCov
+
 ###############
 # Terrestrial #
 ###############
 
 terrestrial.2010 <- nc_plot(data.in = native.cover.2010, 
                             habitat = "UpCov", 
-                            title = "Terrestrial Native Cover (2010)")
+                            title = "TNC 2010")
 
 terrestrial.2018 <- nc_plot(data.in = native.cover.2018, 
                             habitat = "UpCov", 
-                            title = "Terrestrial Native Cover (2018)")
+                            title = "TNC 2018")
 
 terrestrial.2019 <- nc_plot(data.in = native.cover.2019, 
                             habitat = "UpCov", 
-                            title = "Terrestrial Native Cover (2019)")
+                            title = "TNC 2019")
 
 terrestrial.2020 <- nc_plot(data.in = native.cover.2020, 
                             habitat = "UpCov", 
-                            title = "Terrestrial Native Cover (2020)")
+                            title = "TNC 2020")
 
 ggsave(filename = "results/figures/indicator/terrestrial-native-cover.png",
        plot = ggarrange(terrestrial.2010, terrestrial.2018,
@@ -74,6 +78,17 @@ ggsave(filename = "results/figures/indicator/terrestrial-native-cover.png",
                         ncol = 2, nrow = 2),
        height = 2400,
        width = 1800,
+       dpi = 100,
+       units = "px")
+
+terrestrial.2010.2020 <- difference_plot(data.in = native.cover.2020, 
+                                         habitat = "UpDiff", 
+                                         title = "Change in TNC (2010 - 2020)")
+
+ggsave(filename = "results/figures/support/terrestrial-native-cover-trend-spatial.png",
+       plot = terrestrial.2010.2020,
+       height = 1200,
+       width = 900,
        dpi = 100,
        units = "px")
 
@@ -100,9 +115,9 @@ trend.histogram <- ggplot(data = terrestrial.trend, aes(x = Difference, col = "#
         geom_vline(xintercept = 0) +
         xlim(c(-15,5)) +
         theme_light() +
-        theme(axis.title = element_text(size=12),
-              legend.title = element_text(size=12),
-              legend.text = element_text(size=12)) +
+        theme(axis.title = element_text(size=14),
+              legend.title = element_text(size=14),
+              legend.text = element_text(size=14)) +
         theme_abmi(font = "Montserrat")
 
 
@@ -118,20 +133,20 @@ ggsave(filename = "results/figures/support/terrestrial-native-cover-histogram.pn
 ###########
 
 aquatic.2010 <- nc_plot(data.in = native.cover.2010, 
-                            habitat = "UpCov", 
-                            title = "Aquatic Native Cover (2010)")
+                            habitat = "LowCov", 
+                            title = "AWNC 2010")
 
 aquatic.2018 <- nc_plot(data.in = native.cover.2018, 
-                            habitat = "UpCov", 
-                            title = "Aquatic Native Cover (2018)")
+                            habitat = "LowCov", 
+                            title = "AWNC 2018")
 
 aquatic.2019 <- nc_plot(data.in = native.cover.2019, 
-                            habitat = "UpCov", 
-                            title = "Aquatic Native Cover (2019)")
+                            habitat = "LowCov", 
+                            title = "AWNC 2019")
 
 aquatic.2020 <- nc_plot(data.in = native.cover.2020, 
-                            habitat = "UpCov", 
-                            title = "Aquatic Native Cover (2020)")
+                            habitat = "LowCov", 
+                            title = "AWNC 2020")
 
 ggsave(filename = "results/figures/indicator/aquatic-native-cover.png",
        plot = ggarrange(aquatic.2010, aquatic.2018,
@@ -139,6 +154,17 @@ ggsave(filename = "results/figures/indicator/aquatic-native-cover.png",
                         ncol = 2, nrow = 2),
        height = 2400,
        width = 1800,
+       dpi = 100,
+       units = "px")
+
+aquatic.2010.2020 <- difference_plot(data.in = native.cover.2020, 
+                                         habitat = "LowDiff", 
+                                         title = "Change in AWNC (2010 - 2020)")
+
+ggsave(filename = "results/figures/support/aquatic-native-cover-trend-spatial.png",
+       plot = aquatic.2010.2020,
+       height = 1200,
+       width = 900,
        dpi = 100,
        units = "px")
 
@@ -164,7 +190,7 @@ trend.histogram <- ggplot(data = aquatic.trend, aes(x = Difference, col = "#004f
         geom_vline(xintercept = 0) +
         xlim(c(-15,5)) +
         theme_light() +
-        theme(axis.title = element_text(size=12)) +
+        theme(axis.title = element_text(size=14)) +
         theme_abmi(font = "Montserrat")
 
 
@@ -225,20 +251,27 @@ harvest.recovery <- data.frame(Stand = c(rep("Deciduous", 81),
                                Recovery = c(recovery.curve$Deciduous,
                                             recovery.curve$Coniferous))
 
+# We are removing the 80 year class as looks weird visually. Can simply say "After 80 years, recovery is assumed 100%".
+harvest.recovery <- harvest.recovery[harvest.recovery$Age != 80, ]
+
 recovery.curve <- ggplot(data = harvest.recovery, aes(x = Age, y = Recovery, fill = Stand, col = Stand)) + 
         geom_point() +
-        scale_color_manual(values = met.brewer(name = "Egypt", n = 2, type = "discrete")) +
-        scale_fill_manual(values = met.brewer(name = "Egypt", n = 2, type = "discrete")) +
+        scale_color_manual(name = "Stand Type",values = met.brewer(name = "Egypt", n = 2, type = "discrete")) +
+        scale_fill_manual(name = "Stand Type", values = met.brewer(name = "Egypt", n = 2, type = "discrete")) +
         ggtitle(paste0("Forest Recovery Curves")) + 
         xlab("Age") +
         ylab("Stand Recovery (%)") +
         ylim(c(0,100)) +
         xlim(c(0,80)) +
         theme_light() +
-        theme(axis.title = element_text(size=12),
-              legend.title = element_text(size=12),
-              legend.text = element_text(size=12)) +
-        theme_abmi(font = "Montserrat")
+        theme(axis.title = element_text(size=14, face = "bold"),
+              title = element_text(size = 14, face = "bold"),
+              axis.text = element_text(size=14),
+              legend.title = element_text(size=14),
+              legend.text = element_text(size=14), 
+              panel.grid.minor = element_blank(),
+              panel.grid.major = element_blank())
+
 
 ggsave(filename = "results/figures/support/forest-recovery-curves.png",
        plot = recovery.curve,
@@ -276,15 +309,21 @@ aquatic.trend <- data.frame(Simplified = native.cover.2018$LowCov,
 
 terrestrial.figure <- ggplot(data = terrestrial.trend, aes(x = Backfill, y = Simplified)) + 
         geom_point() +
-        ggtitle(paste0("Terrestrial Native Cover (%)")) + 
         geom_abline(slope = 1) +
-        xlab("Complex recovery curves") +
-        ylab("Simplified recovery curves") +
+        xlab("TNC by Complex Recovery Curves") +
+        ylab("TNC by Simplified Recovery Curves") +
         ylim(c(0,100)) +
         xlim(c(0,100)) +
         theme_light() +
-        theme(axis.title = element_text(size=12)) +
-        theme_abmi(font = "Montserrat")
+        theme(axis.title = element_text(size=14, face = "bold"),
+              title = element_text(size = 14, face = "bold"),
+              axis.text = element_text(size=14),
+              legend.title = element_text(size=14),
+              legend.text = element_text(size=14), 
+              panel.grid.minor = element_blank(),
+              panel.grid.major = element_blank())
+
+
 
 ggsave(filename = "results/figures/support/terrestrial-recovery-method-comparison-2018.png",
        plot = terrestrial.figure,
@@ -295,15 +334,19 @@ ggsave(filename = "results/figures/support/terrestrial-recovery-method-compariso
 
 aquatic.figure <- ggplot(data = aquatic.trend, aes(x = Backfill, y = Simplified)) + 
         geom_point() +
-        ggtitle(paste0("Aquatic Native Cover (%)")) + 
         geom_abline(slope = 1) +
-        xlab("Complex recovery curves") +
-        ylab("Simplified recovery curves") +
+        xlab("AWNC by Complex Recovery Curves") +
+        ylab("AWNC by Simplified Recovery Curves") +
         ylim(c(0,100)) +
         xlim(c(0,100)) +
         theme_light() +
-        theme(axis.title = element_text(size=12)) +
-        theme_abmi(font = "Montserrat")
+        theme(axis.title = element_text(size=14, face = "bold"),
+              title = element_text(size = 14, face = "bold"),
+              axis.text = element_text(size=14),
+              legend.title = element_text(size=14),
+              legend.text = element_text(size=14), 
+              panel.grid.minor = element_blank(),
+              panel.grid.major = element_blank())
 
 ggsave(filename = "results/figures/support/aquatic-recovery-method-comparison-2018.png",
        plot = aquatic.figure,
