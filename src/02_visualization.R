@@ -1,7 +1,7 @@
 #
 # Title: Visualization of "terrestrial" and "aquatic" native cover
 # Created: June 6th, 2022
-# Last Updated: August 1st, 2023
+# Last Updated: August 8th, 2023
 # Author: Brandon Allen
 # Objectives: Visualize the two native cover indicators
 # Keywords: Notes, Visualization, Forest recovery, Simple versus complex recovery
@@ -83,7 +83,7 @@ ggsave(filename = "results/figures/indicator/terrestrial-native-cover.png",
 
 terrestrial.2010.2020 <- difference_plot(data.in = native.cover.2020, 
                                          habitat = "UpDiff", 
-                                         title = "Change in TNC (2010 - 2020)")
+                                         title = "")
 
 ggsave(filename = "results/figures/support/terrestrial-native-cover-trend-spatial.png",
        plot = terrestrial.2010.2020,
@@ -159,7 +159,7 @@ ggsave(filename = "results/figures/indicator/aquatic-native-cover.png",
 
 aquatic.2010.2020 <- difference_plot(data.in = native.cover.2020, 
                                          habitat = "LowDiff", 
-                                         title = "Change in AWNC (2010 - 2020)")
+                                         title = "")
 
 ggsave(filename = "results/figures/support/aquatic-native-cover-trend-spatial.png",
        plot = aquatic.2010.2020,
@@ -258,17 +258,19 @@ recovery.curve <- ggplot(data = harvest.recovery, aes(x = Age, y = Recovery, fil
         geom_point() +
         scale_color_manual(name = "Stand Type",values = met.brewer(name = "Egypt", n = 2, type = "discrete")) +
         scale_fill_manual(name = "Stand Type", values = met.brewer(name = "Egypt", n = 2, type = "discrete")) +
-        ggtitle(paste0("Forest Recovery Curves")) + 
-        xlab("Age") +
+        xlab("Age (Years)") +
         ylab("Stand Recovery (%)") +
         ylim(c(0,100)) +
         xlim(c(0,80)) +
         theme_light() +
-        theme(axis.title = element_text(size=14, face = "bold"),
-              title = element_text(size = 14, face = "bold"),
-              axis.text = element_text(size=14),
-              legend.title = element_text(size=14),
-              legend.text = element_text(size=14), 
+        theme(axis.title = element_text(size=16, face = "bold"),
+              title = element_text(size=16, face = "bold"),
+              axis.text = element_text(size=16),
+              legend.title = element_text(size=16),
+              legend.text = element_text(size=16), 
+              panel.border = element_rect(color = "black",
+                                          fill = NA,
+                                          size = 1),
               panel.grid.minor = element_blank(),
               panel.grid.major = element_blank())
 
@@ -298,7 +300,7 @@ library(MetBrewer)
 
 # Load final results and previous iteration
 native.cover.2018 <- read_sf("results/gis/2018/native_cover_HFI2018.shp")
-native.cover.2018.old <- read_sf("beta/backfil-recovery-curve//native_cover_HFI2018.shp")
+native.cover.2018.old <- read_sf("beta/backfil-recovery-curve/native_cover_HFI2018.shp")
 
 # Create the trend results
 terrestrial.trend <- data.frame(Simplified = native.cover.2018$UpCov,
@@ -310,18 +312,21 @@ aquatic.trend <- data.frame(Simplified = native.cover.2018$LowCov,
 terrestrial.figure <- ggplot(data = terrestrial.trend, aes(x = Backfill, y = Simplified)) + 
         geom_point() +
         geom_abline(slope = 1) +
-        xlab("TNC by Complex Recovery Curves") +
-        ylab("TNC by Simplified Recovery Curves") +
+        xlab("TNC by Complex Recovery Curves (%)") +
+        ylab("TNC by Simplified Recovery Curves (%)") +
         ylim(c(0,100)) +
         xlim(c(0,100)) +
         theme_light() +
-        theme(axis.title = element_text(size=14, face = "bold"),
-              title = element_text(size = 14, face = "bold"),
-              axis.text = element_text(size=14),
-              legend.title = element_text(size=14),
-              legend.text = element_text(size=14), 
+        theme(axis.title = element_text(size=16, face = "bold"),
+              title = element_text(size = 16, face = "bold"),
+              axis.text = element_text(size=16),
+              legend.title = element_text(size=16),
+              legend.text = element_text(size=16), 
               panel.grid.minor = element_blank(),
-              panel.grid.major = element_blank())
+              panel.grid.major = element_blank(),
+              panel.border = element_rect(color = "black",
+                                          fill = NA,
+                                          size = 1))
 
 
 
@@ -335,18 +340,21 @@ ggsave(filename = "results/figures/support/terrestrial-recovery-method-compariso
 aquatic.figure <- ggplot(data = aquatic.trend, aes(x = Backfill, y = Simplified)) + 
         geom_point() +
         geom_abline(slope = 1) +
-        xlab("AWNC by Complex Recovery Curves") +
-        ylab("AWNC by Simplified Recovery Curves") +
+        xlab("AWNC by Complex Recovery Curves (%)") +
+        ylab("AWNC by Simplified Recovery Curves (%)") +
         ylim(c(0,100)) +
         xlim(c(0,100)) +
         theme_light() +
-        theme(axis.title = element_text(size=14, face = "bold"),
-              title = element_text(size = 14, face = "bold"),
-              axis.text = element_text(size=14),
-              legend.title = element_text(size=14),
-              legend.text = element_text(size=14), 
+        theme(axis.title = element_text(size=16, face = "bold"),
+              title = element_text(size = 16, face = "bold"),
+              axis.text = element_text(size=16),
+              legend.title = element_text(size=16),
+              legend.text = element_text(size=16), 
               panel.grid.minor = element_blank(),
-              panel.grid.major = element_blank())
+              panel.grid.major = element_blank(),
+              panel.border = element_rect(color = "black",
+                                          fill = NA,
+                                          size = 1))
 
 ggsave(filename = "results/figures/support/aquatic-recovery-method-comparison-2018.png",
        plot = aquatic.figure,
