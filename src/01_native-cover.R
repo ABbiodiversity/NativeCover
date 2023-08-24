@@ -46,6 +46,7 @@ watershed.layer.2010 <- watershed.layer
 watershed.layer.2018 <- watershed.layer
 watershed.layer.2019 <- watershed.layer
 watershed.layer.2020 <- watershed.layer
+watershed.layer.2021 <- watershed.layer
 
 # Load recovery curves
 load("data/lookup/harvest-recovery-curves_80years.Rdata")
@@ -59,7 +60,7 @@ py_discover_config() # We need version 3.7
 py_config() # Double check it is version 3.7
 
 # Set python 
-use_python(python = "C:/Users/ballen/miniconda3/envs/r-reticulate/python.exe")
+use_python(python = "C:/Users/ballen/AppData/Local/r-miniconda/envs/r-reticulate/python.exe")
 
 # Load arcpy
 arcpy <- import('arcpy') 
@@ -121,6 +122,18 @@ for (HUC.id in watershed.ids) {
                                              results = watershed.layer.2020, 
                                              arcpy = arcpy)
         
+        # 2021 HFI
+        watershed.layer.2021 <- native_cover(landcover = "data/base/landcover/ABMIwetlandInventory.gdb/ABMIwetlandInventory", 
+                                             riparian = "data/base/landcover/LoticRiparianDigitalElevationModelDerived/Data/Shapefile/10TM_Offset/LoticRiparianDigitalElevationModelDerived.shp", 
+                                             hfi.inventory = "data/base/footprint/HFI2021.gdb/HFI2021", 
+                                             harvest.areas = harvest.areas,
+                                             recovery.curve = recovery.curve,
+                                             boundaries = "data/base/boundaries/HUC_8_NSR.shp", 
+                                             huc.id = HUC.id, 
+                                             hfi.year = 2021, 
+                                             results = watershed.layer.2021, 
+                                             arcpy = arcpy)
+        
         
         print(HUC.id)
         
@@ -131,6 +144,7 @@ write_sf(watershed.layer.2010, dsn = "results/gis/2010/native_cover_HFI2010.shp"
 write_sf(watershed.layer.2018, dsn = "results/gis/2018/native_cover_HFI2018.shp")
 write_sf(watershed.layer.2019, dsn = "results/gis/2019/native_cover_HFI2019.shp")
 write_sf(watershed.layer.2020, dsn = "results/gis/2020/native_cover_HFI2020.shp")
+write_sf(watershed.layer.2021, dsn = "results/gis/2020/native_cover_HFI2021.shp")
 
 rm(list=ls())
 gc()
