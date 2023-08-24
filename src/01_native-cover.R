@@ -1,7 +1,7 @@
 #
 # Title: Calculating the terrestrial and aquatic native cover indicator
 # Created: June 3rd, 2022
-# Last Updated: July 24th, 2023
+# Last Updated: August 24th, 2023
 # Author: Brandon Allen
 # Objectives: Calculate percent native cover for both habitat classes
 # Keywords: Notes, Native Cover
