@@ -1,7 +1,7 @@
 #
 # Title: Visualization of "terrestrial" and "aquatic" native cover
 # Created: June 6th, 2022
-# Last Updated: August 8th, 2023
+# Last Updated: August 25th, 2023
 # Author: Brandon Allen
 # Objectives: Visualize the two native cover indicators
 # Keywords: Notes, Visualization, Forest recovery, Simple versus complex recovery
@@ -38,19 +38,20 @@ native.cover.2010 <- read_sf("results/gis/2010/native_cover_HFI2010.shp")
 native.cover.2018 <- read_sf("results/gis/2018/native_cover_HFI2018.shp")
 native.cover.2019 <- read_sf("results/gis/2019/native_cover_HFI2019.shp")
 native.cover.2020 <- read_sf("results/gis/2020/native_cover_HFI2020.shp")
+native.cover.2021 <- read_sf("results/gis/2021/native_cover_HFI2021.shp")
 
 # Create the trend results
 terrestrial.trend <- data.frame(NC_2010 = native.cover.2010$UpCov,
-                                NC_2020 = native.cover.2020$UpCov,
-                                Difference = native.cover.2020$UpCov - native.cover.2010$UpCov)
+                                NC_2021 = native.cover.2021$UpCov,
+                                Difference = native.cover.2021$UpCov - native.cover.2010$UpCov)
 
 aquatic.trend <- data.frame(NC_2010 = native.cover.2010$LowCov,
-                            NC_2020 = native.cover.2020$LowCov,
-                            Difference = native.cover.2020$LowCov - native.cover.2010$LowCov)
+                            NC_2021 = native.cover.2021$LowCov,
+                            Difference = native.cover.2021$LowCov - native.cover.2010$LowCov)
 
 # Calculate the differences
-native.cover.2020$UpDiff <- native.cover.2020$UpCov - native.cover.2010$UpCov
-native.cover.2020$LowDiff <- native.cover.2020$LowCov - native.cover.2010$LowCov
+native.cover.2021$UpDiff <- native.cover.2021$UpCov - native.cover.2010$UpCov
+native.cover.2021$LowDiff <- native.cover.2021$LowCov - native.cover.2010$LowCov
 
 ###############
 # Terrestrial #
@@ -72,21 +73,25 @@ terrestrial.2020 <- nc_plot(data.in = native.cover.2020,
                             habitat = "UpCov", 
                             title = "TNC 2020")
 
+terrestrial.2021 <- nc_plot(data.in = native.cover.2021, 
+                            habitat = "UpCov", 
+                            title = "TNC 2021")
+
 ggsave(filename = "results/figures/indicator/terrestrial-native-cover.png",
        plot = ggarrange(terrestrial.2010, terrestrial.2018,
-                        terrestrial.2019, terrestrial.2020,
-                        ncol = 2, nrow = 2),
+                        terrestrial.2019, terrestrial.2020, terrestrial.2021,
+                        ncol = 3, nrow = 2),
        height = 2400,
-       width = 1800,
+       width = 2700,
        dpi = 100,
        units = "px")
 
-terrestrial.2010.2020 <- difference_plot(data.in = native.cover.2020, 
+terrestrial.2010.2021 <- difference_plot(data.in = native.cover.2021, 
                                          habitat = "UpDiff", 
                                          title = "")
 
 ggsave(filename = "results/figures/support/terrestrial-native-cover-trend-spatial.png",
-       plot = terrestrial.2010.2020,
+       plot = terrestrial.2010.2021,
        height = 1200,
        width = 900,
        dpi = 100,
@@ -94,7 +99,7 @@ ggsave(filename = "results/figures/support/terrestrial-native-cover-trend-spatia
 
 trend.plot <- trend_plot(data.in = terrestrial.trend, 
                          x = "2010", 
-                         y = "2020", 
+                         y = "2021", 
                          title = "Terrestrial Native Cover")
 
 
@@ -106,7 +111,7 @@ ggsave(filename = "results/figures/support/terrestrial-native-cover-trend.png",
        units = "px")
 
 trend.histogram <- ggplot(data = terrestrial.trend, aes(x = Difference, col = "#004f63", fill = "#004f63")) + 
-        geom_histogram(bins = 50, show.legend = FALSE) +
+        geom_histogram(bins = 100, show.legend = FALSE) +
         scale_color_manual(values = "#004f63") +
         scale_fill_manual(values = "#004f63") +
         ggtitle(paste0("Terrestrial Native Cover")) + 
@@ -119,7 +124,6 @@ trend.histogram <- ggplot(data = terrestrial.trend, aes(x = Difference, col = "#
               legend.title = element_text(size=14),
               legend.text = element_text(size=14)) +
         theme_abmi(font = "Montserrat")
-
 
 ggsave(filename = "results/figures/support/terrestrial-native-cover-histogram.png",
        plot = trend.histogram,
@@ -148,21 +152,25 @@ aquatic.2020 <- nc_plot(data.in = native.cover.2020,
                             habitat = "LowCov", 
                             title = "AWNC 2020")
 
+aquatic.2021 <- nc_plot(data.in = native.cover.2021, 
+                        habitat = "LowCov", 
+                        title = "AWNC 2021")
+
 ggsave(filename = "results/figures/indicator/aquatic-native-cover.png",
        plot = ggarrange(aquatic.2010, aquatic.2018,
-                        aquatic.2019, aquatic.2020,
-                        ncol = 2, nrow = 2),
+                        aquatic.2019, aquatic.2020, aquatic.2021,
+                        ncol = 2, nrow = 3),
        height = 2400,
-       width = 1800,
+       width = 2700,
        dpi = 100,
        units = "px")
 
-aquatic.2010.2020 <- difference_plot(data.in = native.cover.2020, 
+aquatic.2010.2021 <- difference_plot(data.in = native.cover.2021, 
                                          habitat = "LowDiff", 
                                          title = "")
 
 ggsave(filename = "results/figures/support/aquatic-native-cover-trend-spatial.png",
-       plot = aquatic.2010.2020,
+       plot = aquatic.2010.2021,
        height = 1200,
        width = 900,
        dpi = 100,
@@ -170,7 +178,7 @@ ggsave(filename = "results/figures/support/aquatic-native-cover-trend-spatial.pn
 
 trend.plot <- trend_plot(data.in = aquatic.trend, 
                          x = "2010", 
-                         y = "2020", 
+                         y = "2021", 
                          title = "Aquatic Native Cover")
 
 ggsave(filename = "results/figures/support/aquatic-native-cover-trend.png",
@@ -205,7 +213,7 @@ ggsave(filename = "results/figures/support/aquatic-native-cover-histogram.png",
 # Aquatic versus Terrestrial comparison #
 #########################################
 
-aquatic.vs.terrestiral <- ggplot(data = native.cover.2020, aes(x = LowCov, y = UpCov)) + 
+aquatic.vs.terrestiral <- ggplot(data = native.cover.2021, aes(x = LowCov, y = UpCov)) + 
         geom_point() +
         ggtitle(paste0("Aquatic vs Terrestrial Cover")) + 
         geom_abline(slope = 1) +
@@ -217,7 +225,7 @@ aquatic.vs.terrestiral <- ggplot(data = native.cover.2020, aes(x = LowCov, y = U
         theme(axis.title = element_text(size=12)) +
         theme_abmi(font = "Montserrat")
 
-ggsave(filename = "results/figures/support/aquatic-terrestrial-2020.png",
+ggsave(filename = "results/figures/support/aquatic-terrestrial-2021.png",
        plot = aquatic.vs.terrestiral,
        height = 800,
        width = 800,
