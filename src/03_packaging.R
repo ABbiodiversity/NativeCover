@@ -51,4 +51,4 @@ native.cover$AWNC2020 <- native.cover.2020$LowCov
 native.cover$AWNC2021 <- native.cover.2021$LowCov
 
 # Save
-write_sf(native.cover, file = "results/gis/native_cover_2010_2021.shp")
+write_sf(obj = native.cover, dsn = "results/gis/native_cover_2010_2021.shp")
