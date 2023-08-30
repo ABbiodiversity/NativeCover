@@ -1,7 +1,7 @@
 #
 # Title: Visualization of "terrestrial" and "aquatic" native cover
 # Created: June 6th, 2022
-# Last Updated: August 25th, 2023
+# Last Updated: August 30th, 2023
 # Author: Brandon Allen
 # Objectives: Visualize the two native cover indicators
 # Keywords: Notes, Visualization, Forest recovery, Simple versus complex recovery
@@ -213,19 +213,22 @@ ggsave(filename = "results/figures/support/aquatic-native-cover-histogram.png",
 # Aquatic versus Terrestrial comparison #
 #########################################
 
-aquatic.vs.terrestiral <- ggplot(data = native.cover.2021, aes(x = LowCov, y = UpCov)) + 
+# Calculate the differences
+native.cover.2021$UpDiff <- native.cover.2021$UpCov - native.cover.2010$UpCov
+native.cover.2021$LowDiff <- native.cover.2021$LowCov - native.cover.2010$LowCov
+
+aquatic.vs.terrestiral <- ggplot(data = native.cover.2021, aes(x = UpDiff, y = LowDiff)) + 
         geom_point() +
-        ggtitle(paste0("Aquatic vs Terrestrial Cover")) + 
         geom_abline(slope = 1) +
-        xlab("Aquatic Native Cover (%)") +
-        ylab("Terrestrial Native Cover (%)") +
-        ylim(c(0,100)) +
-        xlim(c(0,100)) +
+        xlab("TNC Percent Change 2010-2021 (%)") +
+        ylab("AWNC Percent Change 2010-2021 (%)") +
+        ylim(c(-15,5)) +
+        xlim(c(-15,5)) +
         theme_light() +
         theme(axis.title = element_text(size=12)) +
         theme_abmi(font = "Montserrat")
 
-ggsave(filename = "results/figures/support/aquatic-terrestrial-2021.png",
+ggsave(filename = "results/figures/support/aquatic-terrestrial-2010-2021.png",
        plot = aquatic.vs.terrestiral,
        height = 800,
        width = 800,
