@@ -1,10 +1,10 @@
 #
 # Title: Visualization of "terrestrial" and "aquatic" native cover
 # Created: June 6th, 2022
-# Last Updated: August 30th, 2023
+# Last Updated: September 18th, 2023
 # Author: Brandon Allen
 # Objectives: Visualize the two native cover indicators
-# Keywords: Notes, Visualization, Forest recovery, Simple versus complex recovery
+# Keywords: Notes, Visualization, Forest recovery, Simple versus complex recovery, Layer Boundaries
 #
 
 #########
@@ -377,4 +377,49 @@ ggsave(filename = "results/figures/support/aquatic-recovery-method-comparison-20
 rm(list=ls())
 gc()
 
+####################
+# Layer Boundaries # 
+####################~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# Load libraries
+library(abmi.themes)
+library(ggplot2)
+library(MetBrewer)
+library(ggpubr)
+library(sf)
+
+# Load base data
+aquatic.reference <- read_sf(dsn = "D:/abmi/NativeCover/data/base/reference_boundary.gdb/",
+                             layer = "aquatic_reference")
+terrestrial.reference <- read_sf(dsn = "D:/abmi/NativeCover/data/base/reference_boundary.gdb/",
+                                 layer = "terrestrial_reference")
+
+aquatic.reference$Habitat <- "Aquatic"
+terrestrial.reference$Habitat <- "Terrestrial"
+
+# Merge the two
+reference.condition <- rbind(aquatic.reference, terrestrial.reference[, colnames(aquatic.reference)])
+
+aquatic.upland.boundary <- ggplot() + 
+        geom_sf(data = reference.condition, aes(fill = Habitat, color = Habitat), size = 0, show.legend = FALSE) +
+        scale_color_manual(values = c(alpha("#2C6582", 0), alpha("#F9D14A", 0))) +
+        scale_fill_manual(values = c("#2C6582", alpha("#F9D14A", 0.2))) +
+        scale_size_identity() +
+        theme_light() +
+        theme_abmi(font = "Montserrat") +
+        theme(axis.title = element_text(size=14),
+              axis.text.x = element_text(size=14),
+              axis.text.y = element_text(size=14),
+              title = element_text(size=14),
+              axis.line = element_line(colour = "black"),
+              panel.border = element_rect(colour = "black", fill=NA, size=1))
+
+ggsave(filename = "results/figures/indicator/aquatic-riparian-upland-boundary.png",
+       plot = aquatic.upland.boundary,
+       height = 2400,
+       width = 1800,
+       dpi = 120,
+       units = "px")
+
+rm(list=ls())
+gc()
