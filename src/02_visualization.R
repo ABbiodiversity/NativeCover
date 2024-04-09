@@ -417,7 +417,7 @@ aquatic.upland.boundary <- ggplot() +
 ggsave(filename = "results/figures/indicator/aquatic-riparian-upland-boundary.png",
        plot = aquatic.upland.boundary,
        height = 2400,
-       width = 1800,
+       width = 1600,
        dpi = 120,
        units = "px")
 
