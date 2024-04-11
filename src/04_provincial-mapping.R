@@ -1,7 +1,7 @@
 #
 # Title: Provincial Reporting
 # Created: April 3rd, 2024
-# Last Updated: April 8th, 2024
+# Last Updated: April 10th, 2024
 # Author: Brandon Allen
 # Objectives: Calculate the terrestrial and aquatic native cover indicators for provincial reporting
 # Keywords: Notes, Native Cover, Merging
@@ -125,64 +125,60 @@ arcpy$env$parallelProcessingFactor <- "100%"
 
 for (year in hfi.years) {
         
-        # Create geodatabase
-        arcpy$CreateFileGDB_management(out_folder_path = paste0(getwd(), "/results/gis"), 
-                                       out_name = paste0("InteriorHabitat_", year, ".gdb"))
+        # Create geodatabases
+        arcpy$CreateFileGDB_management(out_folder_path = paste0(getwd(), "/results/gis/custom-reporting/"), 
+                                       out_name = paste0("Terrestrial_Current_", year, ".gdb"))
+        
+        arcpy$CreateFileGDB_management(out_folder_path = paste0(getwd(), "/results/gis/custom-reporting/"), 
+                                       out_name = paste0("Terrestrial_Reference_", year, ".gdb"))
+        
+        arcpy$CreateFileGDB_management(out_folder_path = paste0(getwd(), "/results/gis/custom-reporting/"), 
+                                       out_name = paste0("Aquatic_Current_", year, ".gdb"))
+        
+        arcpy$CreateFileGDB_management(out_folder_path = paste0(getwd(), "/results/gis/custom-reporting/"), 
+                                       out_name = paste0("Aquatic_Reference_", year, ".gdb"))
         
         # Define the list of geodatabases that are required for the merge
-        tile.path <- list.files(paste0(getwd(), "/data/processed/", year), full.names = TRUE)
-        tile.list <- list(IntHab_50 = NULL,
-                          IntHab_200 = NULL,
-                          IntHab_500 = NULL)
+        tile.path <- list.files(paste0(getwd(), "/data/processed/mapping/", year, "/gis/"), full.names = TRUE)
+        tile.list <- list(Terrestrial_Current = NULL,
+                          Terrestrial_Reference = NULL,
+                          Aquatic_Current = NULL,
+                          Aquatic_Reference = NULL)
         
         for (tile in tile.path) {
                 
                 arcpy$env$workspace <- tile
                 layer.id <- arcpy$ListFeatureClasses()
                 
-                tile.list$IntHab_50 <- c(tile.list$IntHab_50, paste0(tile, "/", layer.id[grep("IntHab_50_", layer.id)]))
-                tile.list$IntHab_200 <- c(tile.list$IntHab_200, paste0(tile, "/", layer.id[grep("IntHab_200_", layer.id)]))
-                tile.list$IntHab_500 <- c(tile.list$IntHab_500, paste0(tile, "/", layer.id[grep("IntHab_500_", layer.id)]))
+                tile.list$Terrestrial_Current <- c(tile.list$Terrestrial_Current, paste0(tile, "/", layer.id[grep("terrestrial_current_complete", layer.id)]))
+                tile.list$Terrestrial_Reference <- c(tile.list$Terrestrial_Reference, paste0(tile, "/", layer.id[grep("terrestrial_reference", layer.id)]))
+                tile.list$Aquatic_Current <- c(tile.list$Aquatic_Current, paste0(tile, "/", layer.id[grep("aquatic_current_complete", layer.id)]))
+                tile.list$Aquatic_Reference <- c(tile.list$Aquatic_Reference, paste0(tile, "/", layer.id[grep("aquatic_reference", layer.id)]))
                 
         }
         
-        # Create the merged layer
-        arcpy$Merge_management(inputs = paste(tile.list$IntHab_50, collapse = ";"), 
-                               output = paste0(getwd(), "/results/gis/InteriorHabitat_", year, ".gdb/IntHab_50"))
-        
-        arcpy$Merge_management(inputs = paste(tile.list$IntHab_200, collapse = ";"), 
-                               output = paste0(getwd(), "/results/gis/InteriorHabitat_", year, ".gdb/IntHab_200"))
-        
-        arcpy$Merge_management(inputs = paste(tile.list$IntHab_500, collapse = ";"), 
-                               output = paste0(getwd(), "/results/gis/InteriorHabitat_", year, ".gdb/IntHab_500"))
-        
-        # Clip to the backfill layer
-        arcpy$PairwiseClip_analysis(in_features = paste0("D:/backfill/Version7.0/gdb_veghf_reference_condition_", year, ".gdb/veghf_", year), 
-                                    clip_features = paste0(getwd(), "/results/gis/InteriorHabitat_", year, ".gdb/IntHab_50"), 
-                                    out_feature_class = paste0(getwd(), "/results/gis/InteriorHabitat_", year, ".gdb/IntHab_50_backfill"))
-        
-        arcpy$PairwiseClip_analysis(in_features = paste0("D:/backfill/Version7.0/gdb_veghf_reference_condition_", year, ".gdb/veghf_", year), 
-                                    clip_features = paste0(getwd(), "/results/gis/InteriorHabitat_", year, ".gdb/IntHab_200"), 
-                                    out_feature_class = paste0(getwd(), "/results/gis/InteriorHabitat_", year, ".gdb/IntHab_200_backfill"))
-        
-        arcpy$PairwiseClip_analysis(in_features = paste0("D:/backfill/Version7.0/gdb_veghf_reference_condition_", year, ".gdb/veghf_", year), 
-                                    clip_features = paste0(getwd(), "/results/gis/InteriorHabitat_", year, ".gdb/IntHab_500"), 
-                                    out_feature_class = paste0(getwd(), "/results/gis/InteriorHabitat_", year, ".gdb/IntHab_500_backfill"))
-        
-        # Export table as a csv for processing
-        arcpy$ExportTable_conversion(in_table = paste0(getwd(), "/results/gis/InteriorHabitat_", year, ".gdb/IntHab_50_backfill"),
-                                     out_table = paste0(getwd(), "/results/gis/InteriorHabitat_", year, "_50.csv"))
-        
-        arcpy$ExportTable_conversion(in_table = paste0(getwd(), "/results/gis/InteriorHabitat_", year, ".gdb/IntHab_200_backfill"),
-                                     out_table = paste0(getwd(), "/results/gis/InteriorHabitat_", year, "_200.csv"))
-        
-        arcpy$ExportTable_conversion(in_table = paste0(getwd(), "/results/gis/InteriorHabitat_", year, ".gdb/IntHab_500_backfill"),
-                                     out_table = paste0(getwd(), "/results/gis/InteriorHabitat_", year, "_500.csv"))
-        
-        # Clean up the files
-        arcpy$Delete_management(paste0(getwd(), "/results/tables/InteriorHabitat_", year, ".gdb/IntHab_50_backfill"))
-        arcpy$Delete_management(paste0(getwd(), "/results/tables/InteriorHabitat_", year, ".gdb/IntHab_200_backfill"))
-        arcpy$Delete_management(paste0(getwd(), "/results/tables/InteriorHabitat_", year, ".gdb/IntHab_500_backfill"))
+        # For each layer, loop through the process
+        for(layer in names(tile.list)) {
+                
+                # Create the merged layer
+                arcpy$Merge_management(inputs = paste(tile.list[[layer]], collapse = ";"), 
+                                       output = paste0(getwd(), "/results/gis/custom-reporting/", layer, "_", year, ".gdb/native_cover"))
+                
+                # Recalculate areas
+                arcpy$CalculateGeometryAttributes_management(in_features = paste0(getwd(), "/results/gis/custom-reporting/", layer, "_", year, ".gdb/native_cover"), 
+                                                             geometry_property = list(c("TotalArea", "AREA_GEODESIC")), 
+                                                             area_unit = "SQUARE_METERS")
+                
+                # Identify fields within the layer to be removed
+                field.list <- arcpy$ListFields(dataset = paste0(getwd(), "/results/gis/custom-reporting/", layer, "_", year, ".gdb/native_cover"),
+                                               field_type = "All")
+                field.list <- unlist(lapply(field.list, function(x) x$name))
+                field.list <- field.list[!field.list %in% c("OBJECTID", "Shape", "Recovery", "TotalArea", "Shape_Area", "Shape_Length")] # Excluding the FID and shape fields
+                
+                arcpy$DeleteField_management(in_table = paste0(getwd(), "/results/gis/custom-reporting/", layer, "_", year, ".gdb/native_cover"), 
+                                             drop_field = field.list)
+                
+        }
         
         print(year)
         
