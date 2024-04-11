@@ -1,7 +1,7 @@
 #
 # Title: Functions for calculating "terrestrial" and "aquatic" native cover
 # Created: October 7th, 2022
-# Last Updated: April 3rd, 2024
+# Last Updated: April 11th, 2024
 # Author: Brandon Allen
 # Objectives: Define functions for calculating percent native cover
 # Keywords: Native cover, Native cover mapping
@@ -286,6 +286,31 @@ native_cover_mapping <- function(landcover, riparian, hfi.inventory, harvest.are
                              erase_features = "footprint", 
                              out_feature_class = "aquatic_current")
         
+        # Add the default modifer for the aquatic reference condition (1)
+        aquatic.reference <- read_sf(dsn = arcpy$env$workspace, 
+                                   layer =  "aquatic_reference")
+        
+        # Create list of tuple results
+        recovery <- list()
+        
+        for(x in 1:nrow(aquatic.reference)) {
+                
+                recovery[[x]] <- tuple(x, 1)
+                
+        }
+        
+        # Convert to a numpy array
+        recovery <- numpy$array(recovery,
+                                dtype = list(tuple('OBJECTID','float'),
+                                             tuple('Recovery','float')))
+        
+        # Store using extend table
+        arcpy$da$ExtendTable("aquatic_reference",
+                             "OBJECTID",
+                             recovery,
+                             "OBJECTID",
+                             FALSE)
+        
         # Add the default modifier aquatic current conditions (1)
         aquatic.current <- read_sf(dsn = arcpy$env$workspace, 
                                    layer =  "aquatic_current")
@@ -400,7 +425,32 @@ native_cover_mapping <- function(landcover, riparian, hfi.inventory, harvest.are
         # Harvest areas in terrestrial
         #
         
-        # Add the default modifier aquatic current conditions (1)
+        # Add the default modifier terrestrial reference conditions (1)
+        terrestrial.reference <- read_sf(dsn = arcpy$env$workspace, 
+                                       layer =  "terrestrial_reference")
+        
+        # Create list of tuple results
+        recovery <- list()
+        
+        for(x in 1:nrow(terrestrial.reference)) {
+                
+                recovery[[x]] <- tuple(x, 1)
+                
+        }
+        
+        # Convert to a numpy array
+        recovery <- numpy$array(recovery,
+                                dtype = list(tuple('OBJECTID','float'),
+                                             tuple('Recovery','float')))
+        
+        # Store using extend table
+        arcpy$da$ExtendTable("terrestrial_reference",
+                             "OBJECTID",
+                             recovery,
+                             "OBJECTID",
+                             FALSE)
+        
+        # Add the default modifier terrestrial current conditions (1)
         terrestrial.current <- read_sf(dsn = arcpy$env$workspace, 
                                    layer =  "terrestrial_current")
         
