@@ -175,8 +175,14 @@ for (year in hfi.years) {
                 field.list <- unlist(lapply(field.list, function(x) x$name))
                 field.list <- field.list[!field.list %in% c("OBJECTID", "Shape", "Recovery", "TotalArea", "Shape_Area", "Shape_Length")] # Excluding the FID and shape fields
                 
-                arcpy$DeleteField_management(in_table = paste0(getwd(), "/results/gis/custom-reporting/", layer, "_", year, ".gdb/native_cover"), 
-                                             drop_field = field.list)
+                # Add catch so the field management only applies if the length of the field list is great than 0
+                if(length(field.list) != 0) {
+                        
+                        arcpy$DeleteField_management(in_table = paste0(getwd(), "/results/gis/custom-reporting/", layer, "_", year, ".gdb/native_cover"), 
+                                                     drop_field = field.list)   
+                        
+                }
+
                 
         }
         
