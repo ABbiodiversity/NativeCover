@@ -225,13 +225,18 @@ aquatic.vs.terrestiral <- ggplot(data = native.cover.2021, aes(x = UpDiff, y = L
         ylim(c(-15,5)) +
         xlim(c(-15,5)) +
         theme_light() +
-        theme(axis.title = element_text(size=12)) +
+        theme(axis.title = element_text(size=16, face = "bold"),
+              axis.text.x = element_text(size=16), 
+              axis.text.y = element_text(size=16), 
+              panel.border = element_rect(color = "black",
+                                          fill = NA,
+                                          size = 1)) +
         theme_abmi(font = "Montserrat")
 
 ggsave(filename = "results/figures/support/aquatic-terrestrial-2010-2021.png",
        plot = aquatic.vs.terrestiral,
-       height = 800,
-       width = 800,
+       height = 1000,
+       width = 1000,
        dpi = 100,
        units = "px")
 
