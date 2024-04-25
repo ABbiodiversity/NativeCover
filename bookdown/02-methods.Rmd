@@ -22,11 +22,7 @@ loss is not reflected in this indicator.
 </center>
 
 ## Recovery of forest harvest areas
-Applying recovery to harvest areas when calculating current conditions gives a more realistic representation of how
-harvest areas interact with the surrounding ecosystem. It is well known in the scientific literature that forest
-harvesting, particularly clearcut harvesting, differs from wildfire in their impacts on biodiversity (McRae et al., 2001). Although harvest areas provide habitat for some species, they are not equivalent to post-fire forest stands of the same age. However, forest harvest areas do recover over time, and recovery curves recommended by Huggard and
-Kremsater (2015) for deciduous and coniferous forest types were applied when calculating the conditions of the
-AWNC and TNC indicators. These recovery curves were simplified to a single recovery curve to allow the AWNC and TNC indicators to be calculated using only publicly available GIS layers.
+Applying recovery to harvest areas when calculating current conditions gives a more realistic representation of how harvest areas interact with the surrounding ecosystem. It is well known in the scientific literature that forest harvesting, particularly clearcut harvesting, differs from wildfire in their impacts on biodiversity @McRae2001. Although harvest areas provide habitat for some species, they are not equivalent to post-fire forest stands of the same age. However, forest harvest areas do recover over time, and recovery curves recommended by @Huggard2015 for deciduous and coniferous forest types were applied when calculating the conditions of the AWNC and TNC indicators. These recovery curves were simplified to a single recovery curve to allow the AWNC and TNC indicators to be calculated using only publicly available GIS layers.
 
 <center>
 ![Forest recovery curves as described by Kremsater et al., 2015](NativeCover_files/figure-html/images/forest-recovery-curves.png){width=80%}

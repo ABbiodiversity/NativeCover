@@ -154,7 +154,7 @@ div.csl-indent {
 <h2><span class="header-section-number">3.1</span> GIS Layers<a href="native-cover-indicator.html#gis-layers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The following GIS layers were used to delineate native habitat:</p>
 <ol style="list-style-type: decimal">
-<li><p><strong>The ABMI Wetland Inventory</strong> is a provincial scale <a href="https://www.abmi.ca/home/data-analytics/da-top/da-product-overview/Advanced-Landcover-Prediction-and-Habitat-Assessment--ALPHA--Products/ABMI-Wetland-Inventory.html">GIS layer</a> that identifies four classes of wetlands (bogs, fens, marsh, and swamps) and open water. This inventory was developed using open access Sentinal-1 and -2 data and machine learning algorithms <span class="citation">(<a href="#ref-DeLancey2019">J. A. B. DeLancey Evan Ross AND Kariyeva 2019</a>; <a href="#ref-DeLancey2020">E. R. DeLancey et al. 2020</a>)</span>. Due to differences in the types of wetland distributed across Alberta, this layer was divided into three analysis regions (Boreal and Foothills, Prairie, and Rocky Mountain.</p></li>
+<li><p><strong>The ABMI Wetland Inventory</strong> is a provincial scale <a href="https://www.abmi.ca/home/data-analytics/da-top/da-product-overview/Advanced-Landcover-Prediction-and-Habitat-Assessment--ALPHA--Products/ABMI-Wetland-Inventory.html">GIS layer</a> that identifies four classes of wetlands (bogs, fens, marsh, and swamps) and open water. This inventory was developed using open access Sentinal-1 and -2 data and machine learning algorithms <span class="citation">(<a href="#ref-DeLancey2019">Evan Ross DeLancey et al. 2019</a>; <a href="#ref-DeLancey2020">Evan R. DeLancey et al. 2020</a>)</span>. Due to differences in the types of wetland distributed across Alberta, this layer was divided into three analysis regions (Boreal and Foothills, Prairie, and Rocky Mountain.</p></li>
 <li><p><strong>The Lotic Riparian Digital Elevation Model (DEM)</strong> is a provincial scale <a href="https://open.alberta.ca/opendata/gda-14e2b4a7-aca7-4ba9-b9ed-fbe8b0ffe5b9">GIS layer</a> that delineates riparian areas adjacent to streams, rivers, wetlands, and lakes. This layer was used to improve the delineation of aquatic habitat not captured by the <strong>ABMI Wetland Inventory</strong>.</p></li>
 <li><p><strong>The Human Footprint Inventory</strong> is a provincial scale <a href="https://www.abmi.ca/home/data-analytics/da-top/da-product-overview/Human-Footprint-Products/HF-inventory.html">GIS layer</a> that consolidates 115 types of anthropogenic disturbance into 20 subcategories. This layer allowed us to determine the loss of native habitat due to anthropogenic disturbance.</p></li>
 <li><p><strong>Hierarchical Watershed Boundaries of Alberta</strong> The Hydrologic Unit Code Watersheds of Alberta layer allows us to aggregate the status of AWNC and TNC based on ecologically relevant boundaries (<a href="https://open.alberta.ca/opendata/gda-7857b6fb-96c5-4bc5-ac3a-9017778fd183">Hydrologic Unit Code Watersheds of Alberta</a>). We chose to aggregate the information at the HUC-8 watershed scale. Each HUC-8 watershed contains both AWNC and TNC, with TNC ranging between 3.5% to 94% across watersheds. However, these indicators can be reported at alternative spatial scales.</p></li>
@@ -173,11 +173,7 @@ loss is not reflected in this indicator.</p>
 </div>
 <div id="recovery-of-forest-harvest-areas" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Recovery of forest harvest areas<a href="native-cover-indicator.html#recovery-of-forest-harvest-areas" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Applying recovery to harvest areas when calculating current conditions gives a more realistic representation of how
-harvest areas interact with the surrounding ecosystem. It is well known in the scientific literature that forest
-harvesting, particularly clearcut harvesting, differs from wildfire in their impacts on biodiversity (McRae et al., 2001). Although harvest areas provide habitat for some species, they are not equivalent to post-fire forest stands of the same age. However, forest harvest areas do recover over time, and recovery curves recommended by Huggard and
-Kremsater (2015) for deciduous and coniferous forest types were applied when calculating the conditions of the
-AWNC and TNC indicators. These recovery curves were simplified to a single recovery curve to allow the AWNC and TNC indicators to be calculated using only publicly available GIS layers.</p>
+<p>Applying recovery to harvest areas when calculating current conditions gives a more realistic representation of how harvest areas interact with the surrounding ecosystem. It is well known in the scientific literature that forest harvesting, particularly clearcut harvesting, differs from wildfire in their impacts on biodiversity <span class="citation">McRae et al. (<a href="#ref-McRae2001">2001</a>)</span>. Although harvest areas provide habitat for some species, they are not equivalent to post-fire forest stands of the same age. However, forest harvest areas do recover over time, and recovery curves recommended by <span class="citation">Huggard and Kremsater (<a href="#ref-Huggard2015">2015</a>)</span> for deciduous and coniferous forest types were applied when calculating the conditions of the AWNC and TNC indicators. These recovery curves were simplified to a single recovery curve to allow the AWNC and TNC indicators to be calculated using only publicly available GIS layers.</p>
 <center>
 <div class="float">
 <img src="NativeCover_files/figure-html/images/forest-recovery-curves.png" style="width:80.0%" alt="Forest recovery curves as described by Kremsater et al., 2015" />
@@ -206,11 +202,17 @@ AWNC and TNC indicators. These recovery curves were simplified to a single recov
 </div>
 <h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-DeLancey2019" class="csl-entry">
+DeLancey, Evan Ross, Jahan Kariyeva, Jason T. Bried, and Jennifer N. Hird. 2019. <span>“Large-Scale Probabilistic Identification of Boreal Peatlands Using Google Earth Engine, Open-Access Satellite Data, and Machine Learning.”</span> <em>PLOS ONE</em> 14 (6): 1–23. <a href="https://doi.org/10.1371/journal.pone.0218165">https://doi.org/10.1371/journal.pone.0218165</a>.
+</div>
 <div id="ref-DeLancey2020" class="csl-entry">
 DeLancey, Evan R., John F. Simms, Masoud Mahdianpari, Brian Brisco, Craig Mahoney, and Jahan Kariyeva. 2020. <span>“Comparing Deep Learning and Shallow Learning for Large-Scale Wetland Classification in Alberta, Canada.”</span> <em>Remote Sensing</em> 12 (1). <a href="https://doi.org/10.3390/rs12010002">https://doi.org/10.3390/rs12010002</a>.
 </div>
-<div id="ref-DeLancey2019" class="csl-entry">
-DeLancey, Jahan AND Bried, Evan Ross AND Kariyeva. 2019. <span>“Large-Scale Probabilistic Identification of Boreal Peatlands Using Google Earth Engine, Open-Access Satellite Data, and Machine Learning.”</span> <em>PLOS ONE</em> 14 (6): 1–23. <a href="https://doi.org/10.1371/journal.pone.0218165">https://doi.org/10.1371/journal.pone.0218165</a>.
+<div id="ref-Huggard2015" class="csl-entry">
+Huggard, D, and L Kremsater. 2015. <span>“<a href="">Human Footprint Recovery for the Biodiversity Monitoring Framework - Quantitative Synthesis</a>.”</span>
+</div>
+<div id="ref-McRae2001" class="csl-entry">
+McRae, D J, L C Duchesne, B Freedman, T J Lynham, and S Woodley. 2001. <span>“Comparisons Between Wildfire and Forest Harvesting and Their Implications in Forest Management.”</span> <em>Environmental Reviews</em> 9 (4): 223–60. <a href="https://doi.org/10.1139/a01-010">https://doi.org/10.1139/a01-010</a>.
 </div>
 </div>
             </section>
