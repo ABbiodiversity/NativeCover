@@ -1,12 +1,4 @@
 # Native Cover Indicator
-
-There are two types of native cover:
-
-- **Aquatic native cover** represents the amount of aquatic habitat including bogs, fens, swamps, marshes, open water, and riparian areas.
-
-- **Terrestrial native cover** represents the amount of habitat not identified as aquatic habitat (i.e., upland).
-
-For each indicator, we delineated the areas of aquatic and terrestrial native cover and then overlaid human footprint to assess the **current** condition, while discounting for harvest area recovery. The **reference** condition was assessed as the total area of aquatic and terrestrial native cover without the presence of human footprint. This indicator is then presented as the percentage of current native cover (i.e., with footprint) relative to the reference state (i.e., without footprint).
   
 ## GIS Layers
 
@@ -21,15 +13,23 @@ The following GIS layers were used to delineate native habitat:
 4) **Hierarchical Watershed Boundaries of Alberta** The Hydrologic Unit Code Watersheds of Alberta layer allows us to aggregate the status of AWNC and TNC based on ecologically relevant boundaries ([Hydrologic Unit Code Watersheds of Alberta](https://open.alberta.ca/opendata/gda-7857b6fb-96c5-4bc5-ac3a-9017778fd183)). We chose to aggregate the information at the HUC-8 watershed scale. Each HUC-8 watershed contains both AWNC and TNC, with TNC ranging between 3.5% to 94% across watersheds. However, these indicators can be reported at alternative spatial scales.
 
 ## Reference condition
-The Native Cover indicator is expressed as a percentage based on a reference state. We defined the reference state
-as if there is a complete absence of human footprint. Under this reference condition, Alberta is composed
-of 66% TNC and 34% AWNC. By using this reference state, it can aid the interpretation of changes in native cover
-over time. Areas defined as aquatic and wetland native cover are based on when the source layers were derived.
-Areas which are now considered upland may have contained wetlands prior to anthropogenic disturbance and this
+The Native Cover indicator is expressed as a percentage based on a reference state. We defined the reference state as if there is a complete absence of human footprint. Under this reference condition, Alberta is composed of 66% TNC and 34% AWNC. By using this reference state, it can aid the interpretation of changes in native cover over time. Areas defined as aquatic and wetland native cover are based on when the source layers were derived. Areas which are now considered upland may have contained wetlands prior to anthropogenic disturbance and this
 loss is not reflected in this indicator.
 
 <center>
-![Areasa identified as aquatic and wetland (blue) and terrestrial (yellow) native cover based on the ABMI Wetland Inventory and Lotic Riparian layer.](NativeCover_files/figure-html/images/aquatic-riparian-upland-boundary.png){width=80%}
+![Areas identified as aquatic and wetland (blue) and terrestrial (yellow) native cover based on the ABMI Wetland Inventory and Lotic Riparian layer.](NativeCover_files/figure-html/images/aquatic-riparian-upland-boundary.png){width=80%}
+
+</center>
+
+## Recovery of forest harvest areas
+Applying recovery to harvest areas when calculating current conditions gives a more realistic representation of how
+harvest areas interact with the surrounding ecosystem. It is well known in the scientific literature that forest
+harvesting, particularly clearcut harvesting, differs from wildfire in their impacts on biodiversity (McRae et al., 2001). Although harvest areas provide habitat for some species, they are not equivalent to post-fire forest stands of the same age. However, forest harvest areas do recover over time, and recovery curves recommended by Huggard and
+Kremsater (2015) for deciduous and coniferous forest types were applied when calculating the conditions of the
+AWNC and TNC indicators. These recovery curves were simplified to a single recovery curve to allow the AWNC and TNC indicators to be calculated using only publicly available GIS layers.
+
+<center>
+![Forest recovery curves as described by Kremsater et al., 2015](NativeCover_files/figure-html/images/forest-recovery-curves.png){width=80%}
 
 </center>
 
@@ -52,19 +52,4 @@ Terrestrial native cover is calculated from the inverse of the **ABMI wetland In
 $Terrestrial Native Cover  = \frac{Current Terrestrial Cover}{Reference Terrestrial Cover} * 100\%$
 
 </center>
-
-## Recovery of forest harvest areas
-Applying recovery to harvest areas when calculating current conditions gives a more realistic representation of how
-harvest areas interact with the surrounding ecosystem. It is well known in the scientific literature that forest
-harvesting, particularly clearcut harvesting, differs from wildfire in their impacts on biodiversity (McRae et al., 2001). Although harvest areas provide habitat for some species, they are not equivalent to post-fire forest stands of the same age. However, forest harvest areas do recover over time, and recovery curves recommended by Huggard and
-Kremsater (2015) for deciduous and coniferous forest types were applied when calculating the conditions of the
-AWNC and TNC indicators. These recovery curves were simplified to a single recovery curve to allow the AWNC and TNC indicators to be calculated using only publicly available GIS layers.
-
-<center>
-![Forest recovery curves as described by Kremsater et al., 2015](NativeCover_files/figure-html/images/forest-recovery-curves.png){width=80%}
-
-</center>
-
-
-
 
