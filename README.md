@@ -1,6 +1,6 @@
 # Native Cover Indicator for Alberta
 
-> Version 1.0 2024-04-23
+> Version 1.0 2024-04-25
 
 ## Introduction
 
@@ -14,5 +14,7 @@ footprint.
 
 ## Repository Contents
 
-This repository contains the R code (**src/**) required for reproducing the results presented on [GeoDiscover Alberta](https://open.alberta.ca/opendata/gda-a582d6fe-b340-4f9b-9e7c-c7adeedbce7d). The Native Cover Indicator for Alberta is a geospatial product that presents the status of **AWNC** and **TNC** for all HUC 8 watersheds in Alberta at five timesteps: 2010, 2018, 2019, 2020, and 2021. Technical documentation describing the methodology and underlying data layers for this indicator can also be found on [GeoDiscover Alberta](https://open.alberta.ca/publications/native-cover-indicator-for-alberta). For any questions regarding the scripts presented in this repository, GeoDiscover product, technical documentation, or about other applications of this indicator, please contact Brandon Allen (ABMI Senior Terrestrial Ecologist) at brandon.allen@ualberta. 
+This repository contains the R code (**src/**) required for reproducing the results presented on [GeoDiscover Alberta](https://open.alberta.ca/opendata/gda-a582d6fe-b340-4f9b-9e7c-c7adeedbce7d). The Native Cover Indicator for Alberta is a geospatial product that presents the status of **AWNC** and **TNC** for all HUC 8 watersheds in Alberta at five timesteps: 2010, 2018, 2019, 2020, and 2021. Technical documentation describing the methodology and underlying data layers for this indicator can also be found on [GeoDiscover Alberta](https://open.alberta.ca/publications/native-cover-indicator-for-alberta). 
+
+For any questions regarding the scripts presented in this repository, GeoDiscover product, technical documentation, or about other applications of this indicator, please contact Brandon Allen (ABMI Senior Terrestrial Ecologist) at brandon.allen@ualberta. 
 
