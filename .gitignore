@@ -3,7 +3,5 @@
 .RData
 .Ruserdata
 /data/**
-/docs/**
 /results/**
-/bookdown/**
 /beta/**

@@ -1,0 +1,25 @@
+# Literature
+
+Alberta Biodiversity Monitoring Institute. 2016. Alberta Wall-to-Wall Vegetation Layer Including “Backfilled” Vegetation in Human Footprints (Version 6). Alberta, Canada. https://www.abmi.ca/home/publications/451-500/467.
+
+ABMI Human Footprint Inventory: Wall-to-Wall Human Footprint Inventory. 2018. Edmonton, AB: Alberta Biodiversity Monitoring Institute and Alberta Human Footprint Monitoring Program, March 2020.
+
+Alberta Environment and Sustainable Resource Development. 2008. Alberta Land-use Framework. Government of Alberta Publication Number I/321.
+
+DeLancey ER, Simms JF, Mahdianpari M, Brisco B, Mahoney C, Kariyeva J. 2020. Comparing deep learning and shallow learning for large-scale wetland classification in Alberta, Canada. Remote Sensing. 12(1):2. doi: https://doi.org/10.3390/rs12010002.
+
+Klok, C., De Roos, A.M. 1998. Effects of habitat size and quality on equilibrium density and extinction time of Sorex araneus populations. Journal of Animal Ecology 67: 195–209.
+
+Lomolino, M.V., Weiser, M.D. 2001. Toward a more general species-area relationship: Diversity on all islands, great and small. Journal of Biogeography 28: 431–435.
+
+Ramesh, T., Kalle, R., Rosenlund, H., Downs, C.T. 2016. Native habitat and protected area size matters: Preserving mammalian assemblages in the Maputaland Conservation Unit of South Africa. Forest Ecology and Management 360: 20–29.
+
+Ribic, C.A., Koford, R.R., Herkert, J.R., Johnson, D.H., Niemuth, N.D., Naugle, D.E., Bakker, K.K., Sample, D.W., Renfrew, R.B. 2009. Area Sensitivity in North American Grassland Birds: Patterns and Processes. The Auk 126: 233–244.
+
+Rosenzweig, M.L. 1995. Species Diversity in Space and Time, Cambridge University Press, Cambridge, UK.
+
+Sala, O.E., van Vuuren, D., Pereira, H., Lodge, D., Alder, J., Cumming, G.S., Dobson, A., Wolters, V., Xenopoulos, M.A. 2005. Biodiversity across scenarios. Chapter 10 in Millennium Ecosystem Assessment Volume 2: Scenarios Assessment.
+
+ten Brink, B. 2000. Biodiversity indicators for the OECD Environmental Outlook and Strategy. Globo Report Series No. 25, RIVM, Bilthoven.
+
+Wilson, R.J., Ellis, S., Baker, J.S., Lineham, M.E., Whitehead, R.W. and Thomas, C.D. 2002. Large-scale patterns of distribution and persistence at the range margins of a butterfly. Ecology 83: 3357–3368. 

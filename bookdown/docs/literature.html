@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6 Literature | Development of the Native Cover indicator for Alberta</title>
+  <meta name="description" content="Technical documentation describing the methodology behind the Native Cover indicator." />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6 Literature | Development of the Native Cover indicator for Alberta" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Technical documentation describing the methodology behind the Native Cover indicator." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6 Literature | Development of the Native Cover indicator for Alberta" />
+  
+  <meta name="twitter:description" content="Technical documentation describing the methodology behind the Native Cover indicator." />
+  
+
+<meta name="author" content="Brandon Allen" />
+
+
+<meta name="date" content="2024-04-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="limitations-and-future-improvements.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Native Cover</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Summary</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#acknowledgement"><i class="fa fa-check"></i><b>1.1</b> Acknowledgement</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#suggested-citation"><i class="fa fa-check"></i><b>1.2</b> Suggested citation</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#contact"><i class="fa fa-check"></i><b>1.3</b> Contact</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
+<li class="chapter" data-level="3" data-path="native-cover-indicator.html"><a href="native-cover-indicator.html"><i class="fa fa-check"></i><b>3</b> Native Cover Indicator</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="native-cover-indicator.html"><a href="native-cover-indicator.html#gis-layers"><i class="fa fa-check"></i><b>3.1</b> GIS Layers</a></li>
+<li class="chapter" data-level="3.2" data-path="native-cover-indicator.html"><a href="native-cover-indicator.html#reference-condition"><i class="fa fa-check"></i><b>3.2</b> Reference condition</a></li>
+<li class="chapter" data-level="3.3" data-path="native-cover-indicator.html"><a href="native-cover-indicator.html#indicator-conditions"><i class="fa fa-check"></i><b>3.3</b> Indicator Conditions</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="native-cover-indicator.html"><a href="native-cover-indicator.html#aquatic-native-cover"><i class="fa fa-check"></i><b>3.3.1</b> Aquatic Native Cover</a></li>
+<li class="chapter" data-level="3.3.2" data-path="native-cover-indicator.html"><a href="native-cover-indicator.html#terrestrial-native-cover"><i class="fa fa-check"></i><b>3.3.2</b> Terrestrial Native Cover</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="native-cover-indicator.html"><a href="native-cover-indicator.html#recovery-of-forest-harvest-areas"><i class="fa fa-check"></i><b>3.4</b> Recovery of forest harvest areas</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>4</b> Results</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="results.html"><a href="results.html#aquatic-native-cover-1"><i class="fa fa-check"></i><b>4.1</b> Aquatic Native Cover</a></li>
+<li class="chapter" data-level="4.2" data-path="results.html"><a href="results.html#terrestrial-native-cover-1"><i class="fa fa-check"></i><b>4.2</b> Terrestrial Native Cover</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="limitations-and-future-improvements.html"><a href="limitations-and-future-improvements.html"><i class="fa fa-check"></i><b>5</b> Limitations and Future Improvements</a></li>
+<li class="chapter" data-level="6" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>6</b> Literature</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/ABbiodiversity" target="blank">Published by ABMI</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Development of the Native Cover indicator for Alberta</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="literature" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">6</span> Literature<a href="literature.html#literature" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Alberta Biodiversity Monitoring Institute. 2016. Alberta Wall-to-Wall Vegetation Layer Including “Backfilled” Vegetation in Human Footprints (Version 6). Alberta, Canada. <a href="https://www.abmi.ca/home/publications/451-500/467" class="uri">https://www.abmi.ca/home/publications/451-500/467</a>.</p>
+<p>ABMI Human Footprint Inventory: Wall-to-Wall Human Footprint Inventory. 2018. Edmonton, AB: Alberta Biodiversity Monitoring Institute and Alberta Human Footprint Monitoring Program, March 2020.</p>
+<p>Alberta Environment and Sustainable Resource Development. 2008. Alberta Land-use Framework. Government of Alberta Publication Number I/321.</p>
+<p>DeLancey ER, Simms JF, Mahdianpari M, Brisco B, Mahoney C, Kariyeva J. 2020. Comparing deep learning and shallow learning for large-scale wetland classification in Alberta, Canada. Remote Sensing. 12(1):2. doi: <a href="https://doi.org/10.3390/rs12010002" class="uri">https://doi.org/10.3390/rs12010002</a>.</p>
+<p>Klok, C., De Roos, A.M. 1998. Effects of habitat size and quality on equilibrium density and extinction time of Sorex araneus populations. Journal of Animal Ecology 67: 195–209.</p>
+<p>Lomolino, M.V., Weiser, M.D. 2001. Toward a more general species-area relationship: Diversity on all islands, great and small. Journal of Biogeography 28: 431–435.</p>
+<p>Ramesh, T., Kalle, R., Rosenlund, H., Downs, C.T. 2016. Native habitat and protected area size matters: Preserving mammalian assemblages in the Maputaland Conservation Unit of South Africa. Forest Ecology and Management 360: 20–29.</p>
+<p>Ribic, C.A., Koford, R.R., Herkert, J.R., Johnson, D.H., Niemuth, N.D., Naugle, D.E., Bakker, K.K., Sample, D.W., Renfrew, R.B. 2009. Area Sensitivity in North American Grassland Birds: Patterns and Processes. The Auk 126: 233–244.</p>
+<p>Rosenzweig, M.L. 1995. Species Diversity in Space and Time, Cambridge University Press, Cambridge, UK.</p>
+<p>Sala, O.E., van Vuuren, D., Pereira, H., Lodge, D., Alder, J., Cumming, G.S., Dobson, A., Wolters, V., Xenopoulos, M.A. 2005. Biodiversity across scenarios. Chapter 10 in Millennium Ecosystem Assessment Volume 2: Scenarios Assessment.</p>
+<p>ten Brink, B. 2000. Biodiversity indicators for the OECD Environmental Outlook and Strategy. Globo Report Series No. 25, RIVM, Bilthoven.</p>
+<p>Wilson, R.J., Ellis, S., Baker, J.S., Lineham, M.E., Whitehead, R.W. and Thomas, C.D. 2002. Large-scale patterns of distribution and persistence at the range margins of a butterfly. Ecology 83: 3357–3368.</p>
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div class="csl-entry">
+DeLancey, Evan R., John F. Simms, Masoud Mahdianpari, Brian Brisco, Craig Mahoney, and Jahan Kariyeva. 2020. <span>“Comparing Deep Learning and Shallow Learning for Large-Scale Wetland Classification in Alberta, Canada.”</span> <em>Remote Sensing</em> 12 (1). <a href="https://doi.org/10.3390/rs12010002">https://doi.org/10.3390/rs12010002</a>.
+</div>
+<div class="csl-entry">
+DeLancey, Jahan AND Bried, Evan Ross AND Kariyeva. 2019. <span>“Large-Scale Probabilistic Identification of Boreal Peatlands Using Google Earth Engine, Open-Access Satellite Data, and Machine Learning.”</span> <em>PLOS ONE</em> 14 (6): 1–23. <a href="https://doi.org/10.1371/journal.pone.0218165">https://doi.org/10.1371/journal.pone.0218165</a>.
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="limitations-and-future-improvements.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

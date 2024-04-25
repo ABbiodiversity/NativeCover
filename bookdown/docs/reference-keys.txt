@@ -1,0 +1,17 @@
+summary
+acknowledgement
+suggested-citation
+contact
+introduction
+native-cover-indicator
+gis-layers
+reference-condition
+indicator-conditions
+aquatic-native-cover
+terrestrial-native-cover
+recovery-of-forest-harvest-areas
+results
+aquatic-native-cover-1
+terrestrial-native-cover-1
+limitations-and-future-improvements
+literature

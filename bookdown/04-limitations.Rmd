@@ -1,0 +1,14 @@
+# Limitations and Future Improvements
+
+All indicators, as representations of a component of the environment, have limitations. A single indicator cannot
+measure all aspects of habitat quantity and quality. The Native Cover indicator is intended to serve as a general
+indicator of habitat quantity at the regional and sub-regional levels.
+
+Currently, clearcut harvest areas are the only type of footprint that is allowed to recover in the calculation of AWNC
+and TNC. Recovery for other footprint types (e.g., seismic lines, wellpads) will not be accounted for until sufficient
+supporting information becomes available. 
+
+Potential future improvements include:
+• incorporating recovery for other human footprint types and refining the recovery curves for forest harvest areas,
+• attributing changes in AWNC and TNC to relevant reporting sectors, and
+• acquiring new wetland inventories that better represent wetland loss over time.

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Native Cover Indicator | Development of the Native Cover indicator for Alberta</title>
+  <meta name="description" content="Technical documentation describing the methodology behind the Native Cover indicator." />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 Native Cover Indicator | Development of the Native Cover indicator for Alberta" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Technical documentation describing the methodology behind the Native Cover indicator." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Native Cover Indicator | Development of the Native Cover indicator for Alberta" />
+  
+  <meta name="twitter:description" content="Technical documentation describing the methodology behind the Native Cover indicator." />
+  
+
+<meta name="author" content="Brandon Allen" />
+
+
+<meta name="date" content="2024-04-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introduction.html"/>
+<link rel="next" href="results.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Native Cover</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Summary</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#acknowledgement"><i class="fa fa-check"></i><b>1.1</b> Acknowledgement</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#suggested-citation"><i class="fa fa-check"></i><b>1.2</b> Suggested citation</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#contact"><i class="fa fa-check"></i><b>1.3</b> Contact</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
+<li class="chapter" data-level="3" data-path="native-cover-indicator.html"><a href="native-cover-indicator.html"><i class="fa fa-check"></i><b>3</b> Native Cover Indicator</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="native-cover-indicator.html"><a href="native-cover-indicator.html#gis-layers"><i class="fa fa-check"></i><b>3.1</b> GIS Layers</a></li>
+<li class="chapter" data-level="3.2" data-path="native-cover-indicator.html"><a href="native-cover-indicator.html#reference-condition"><i class="fa fa-check"></i><b>3.2</b> Reference condition</a></li>
+<li class="chapter" data-level="3.3" data-path="native-cover-indicator.html"><a href="native-cover-indicator.html#indicator-conditions"><i class="fa fa-check"></i><b>3.3</b> Indicator Conditions</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="native-cover-indicator.html"><a href="native-cover-indicator.html#aquatic-native-cover"><i class="fa fa-check"></i><b>3.3.1</b> Aquatic Native Cover</a></li>
+<li class="chapter" data-level="3.3.2" data-path="native-cover-indicator.html"><a href="native-cover-indicator.html#terrestrial-native-cover"><i class="fa fa-check"></i><b>3.3.2</b> Terrestrial Native Cover</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="native-cover-indicator.html"><a href="native-cover-indicator.html#recovery-of-forest-harvest-areas"><i class="fa fa-check"></i><b>3.4</b> Recovery of forest harvest areas</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>4</b> Results</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="results.html"><a href="results.html#aquatic-native-cover-1"><i class="fa fa-check"></i><b>4.1</b> Aquatic Native Cover</a></li>
+<li class="chapter" data-level="4.2" data-path="results.html"><a href="results.html#terrestrial-native-cover-1"><i class="fa fa-check"></i><b>4.2</b> Terrestrial Native Cover</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="limitations-and-future-improvements.html"><a href="limitations-and-future-improvements.html"><i class="fa fa-check"></i><b>5</b> Limitations and Future Improvements</a></li>
+<li class="chapter" data-level="6" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>6</b> Literature</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/ABbiodiversity" target="blank">Published by ABMI</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Development of the Native Cover indicator for Alberta</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="native-cover-indicator" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">3</span> Native Cover Indicator<a href="native-cover-indicator.html#native-cover-indicator" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>There are two types of native cover:</p>
+<ul>
+<li><p><strong>Aquatic native cover</strong> represents the amount of aquatic habitat including bogs, fens, swamps, marshes, open water, and riparian areas.</p></li>
+<li><p><strong>Terrestrial native cover</strong> represents the amount of habitat not identified as aquatic habitat (i.e., upland).</p></li>
+</ul>
+<p>For each indicator, we delineated the areas of aquatic and terrestrial native cover and then overlaid human footprint to assess the <strong>current</strong> condition, while discounting for harvest area recovery. The <strong>reference</strong> condition was assessed as the total area of aquatic and terrestrial native cover without the presence of human footprint. This indicator is then presented as the percentage of current native cover (i.e., with footprint) relative to the reference state (i.e., without footprint).</p>
+<div id="gis-layers" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> GIS Layers<a href="native-cover-indicator.html#gis-layers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The following GIS layers were used to delineate native habitat:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>The ABMI Wetland Inventory</strong> is a provincial scale <a href="https://www.abmi.ca/home/data-analytics/da-top/da-product-overview/Advanced-Landcover-Prediction-and-Habitat-Assessment--ALPHA--Products/ABMI-Wetland-Inventory.html">GIS layer</a> that identifies four classes of wetlands (bogs, fens, marsh, and swamps) and open water. This inventory was developed using open access Sentinal-1 and -2 data and machine learning algorithms <span class="citation">(<a href="#ref-DeLancey2019">J. A. B. DeLancey Evan Ross AND Kariyeva 2019</a>; <a href="#ref-DeLancey2020">E. R. DeLancey et al. 2020</a>)</span>. Due to differences in the types of wetland distributed across Alberta, this layer was divided into three analysis regions (Boreal and Foothills, Prairie, and Rocky Mountain.</p></li>
+<li><p><strong>The Lotic Riparian Digital Elevation Model (DEM)</strong> is a provincial scale <a href="https://open.alberta.ca/opendata/gda-14e2b4a7-aca7-4ba9-b9ed-fbe8b0ffe5b9">GIS layer</a> that delineates riparian areas adjacent to streams, rivers, wetlands, and lakes. This layer was used to improve the delineation of aquatic habitat not captured by the <strong>ABMI Wetland Inventory</strong>.</p></li>
+<li><p><strong>The Human Footprint Inventory</strong> is a provincial scale <a href="https://www.abmi.ca/home/data-analytics/da-top/da-product-overview/Human-Footprint-Products/HF-inventory.html">GIS layer</a> that consolidates 115 types of anthropogenic disturbance into 20 subcategories. This layer allowed us to determine the loss of native habitat due to anthropogenic disturbance.</p></li>
+<li><p><strong>Hierarchical Watershed Boundaries of Alberta</strong> The Hydrologic Unit Code Watersheds of Alberta layer allows us to aggregate the status of AWNC and TNC based on ecologically relevant boundaries (<a href="https://open.alberta.ca/opendata/gda-7857b6fb-96c5-4bc5-ac3a-9017778fd183">Hydrologic Unit Code Watersheds of Alberta</a>). We chose to aggregate the information at the HUC-8 watershed scale. Each HUC-8 watershed contains both AWNC and TNC, with TNC ranging between 3.5% to 94% across watersheds. However, these indicators can be reported at alternative spatial scales.</p></li>
+</ol>
+</div>
+<div id="reference-condition" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Reference condition<a href="native-cover-indicator.html#reference-condition" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Native Cover indicator is expressed as a percentage based on a reference state. We defined the reference state
+as if there is a complete absence of human footprint. Under this reference condition, Alberta is composed
+of 66% TNC and 34% AWNC. By using this reference state, it can aid the interpretation of changes in native cover
+over time. Areas defined as aquatic and wetland native cover are based on when the source layers were derived.
+Areas which are now considered upland may have contained wetlands prior to anthropogenic disturbance and this
+loss is not reflected in this indicator.</p>
+<center>
+<div class="float">
+<img src="NativeCover_files/figure-html/images/aquatic-riparian-upland-boundary.png" style="width:80.0%" alt="Areasa identified as aquatic and wetland (blue) and terrestrial (yellow) native cover based on the ABMI Wetland Inventory and Lotic Riparian layer." />
+<div class="figcaption">Areasa identified as aquatic and wetland (blue) and terrestrial (yellow) native cover based on the ABMI Wetland Inventory and Lotic Riparian layer.</div>
+</div>
+</center>
+</div>
+<div id="indicator-conditions" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Indicator Conditions<a href="native-cover-indicator.html#indicator-conditions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="aquatic-native-cover" class="section level3 hasAnchor" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Aquatic Native Cover<a href="native-cover-indicator.html#aquatic-native-cover" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>For each HUC-8 watershed, we calculated the area of aquatic native cover (<strong>ABMI Wetland Inventory</strong> and <strong>Lotic Riparian DEM</strong>) under both reference condition (no human footprint) and current condition (erase native habitat under human footprint) across five time periods (2010, 2018, 2019, 2020, 2021).</p>
+<center>
+<p><span class="math inline">\(Aquatic Native Cover = \frac{Current Aquatic Cover}{Reference Aquatic Cover} * 100\%\)</span></p>
+</center>
+</div>
+<div id="terrestrial-native-cover" class="section level3 hasAnchor" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> Terrestrial Native Cover<a href="native-cover-indicator.html#terrestrial-native-cover" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Terrestrial native cover is calculated from the inverse of the <strong>ABMI wetland Inventory</strong> and <strong>Lotic Riparian DEM</strong> (i.e., any habitat not identified as a wetland is therefore an upland habitat). For each HUC-8 watershed, we calculated the area of terrestiral native cover under both reference condition (no human footprint) and current condition (erase native habitat under human footprint) across five time periods (2010, 2018, 2019, 2020, 2021).</p>
+<center>
+<p><span class="math inline">\(Terrestrial Native Cover = \frac{Current Terrestrial Cover}{Reference Terrestrial Cover} * 100\%\)</span></p>
+</center>
+</div>
+</div>
+<div id="recovery-of-forest-harvest-areas" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Recovery of forest harvest areas<a href="native-cover-indicator.html#recovery-of-forest-harvest-areas" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Applying recovery to harvest areas when calculating current conditions gives a more realistic representation of how
+harvest areas interact with the surrounding ecosystem. It is well known in the scientific literature that forest
+harvesting, particularly clearcut harvesting, differs from wildfire in their impacts on biodiversity (McRae et al., 2001). Although harvest areas provide habitat for some species, they are not equivalent to post-fire forest stands of the same age. However, forest harvest areas do recover over time, and recovery curves recommended by Huggard and
+Kremsater (2015) for deciduous and coniferous forest types were applied when calculating the conditions of the
+AWNC and TNC indicators. These recovery curves were simplified to a single recovery curve to allow the AWNC and TNC indicators to be calculated using only publicly available GIS layers.</p>
+<center>
+<div class="float">
+<img src="NativeCover_files/figure-html/images/forest-recovery-curves.png" style="width:80.0%" alt="Forest recovery curves as described by Kremsater et al., 2015" />
+<div class="figcaption">Forest recovery curves as described by Kremsater et al., 2015</div>
+</div>
+</center>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-DeLancey2020" class="csl-entry">
+DeLancey, Evan R., John F. Simms, Masoud Mahdianpari, Brian Brisco, Craig Mahoney, and Jahan Kariyeva. 2020. <span>“Comparing Deep Learning and Shallow Learning for Large-Scale Wetland Classification in Alberta, Canada.”</span> <em>Remote Sensing</em> 12 (1). <a href="https://doi.org/10.3390/rs12010002">https://doi.org/10.3390/rs12010002</a>.
+</div>
+<div id="ref-DeLancey2019" class="csl-entry">
+DeLancey, Jahan AND Bried, Evan Ross AND Kariyeva. 2019. <span>“Large-Scale Probabilistic Identification of Boreal Peatlands Using Google Earth Engine, Open-Access Satellite Data, and Machine Learning.”</span> <em>PLOS ONE</em> 14 (6): 1–23. <a href="https://doi.org/10.1371/journal.pone.0218165">https://doi.org/10.1371/journal.pone.0218165</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="results.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
