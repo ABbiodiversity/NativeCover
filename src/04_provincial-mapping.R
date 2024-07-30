@@ -121,7 +121,7 @@ arcpy <- import('arcpy')
 # Define parallel processing factor
 arcpy$env$parallelProcessingFactor <- "100%"
 
-# For each year and each of the the three buffers, combine the tiles into a single dataset
+# For each year, combine the tiles into a single dataset
 
 for (year in hfi.years) {
         

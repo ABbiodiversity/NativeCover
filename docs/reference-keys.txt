@@ -13,7 +13,7 @@ recovery-of-forest-harvest-areas
 indicator-conditions
 aquatic-native-cover
 terrestrial-native-cover
-measureing-native-cover
+measuring-native-cover
 aquatic-native-cover-1
 terrestrial-native-cover-1
 limitations-and-future-improvements

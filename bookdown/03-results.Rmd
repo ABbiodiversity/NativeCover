@@ -1,4 +1,4 @@
-# Measureing Native Cover
+# Measuring Native Cover
 
 ## Aquatic Native Cover
 Across all HUC-8 watersheds, AWNC values ranged from 10.6% to 100%, with provincial average values of 79.7%,
