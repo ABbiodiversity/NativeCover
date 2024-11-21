@@ -72,6 +72,42 @@ for (HUC.id in watershed.ids) {
                                                      arcpy = arcpy,
                                                      numpy = numpy)
         
+        # 2018 HFI
+        watershed.layer.2018 <- native_cover_mapping(landcover = "data/base/landcover/ABMIwetlandInventory.gdb/ABMIwetlandInventory", 
+                                                     riparian = "data/base/landcover/LoticRiparianDigitalElevationModelDerived/Data/Shapefile/10TM_Offset/LoticRiparianDigitalElevationModelDerived.shp", 
+                                                     hfi.inventory = "data/base/footprint/HFI_2018_v1.gdb/HFI_2018", 
+                                                     harvest.areas = harvest.areas,
+                                                     recovery.curve = recovery.curve,
+                                                     boundaries = "data/base/boundaries/HUC_8_NSR.shp", 
+                                                     huc.id = HUC.id, 
+                                                     hfi.year = 2018, 
+                                                     arcpy = arcpy,
+                                                     numpy = numpy)
+        
+        # 2019 HFI
+        watershed.layer.2019 <- native_cover_mapping(landcover = "data/base/landcover/ABMIwetlandInventory.gdb/ABMIwetlandInventory", 
+                                             riparian = "data/base/landcover/LoticRiparianDigitalElevationModelDerived/Data/Shapefile/10TM_Offset/LoticRiparianDigitalElevationModelDerived.shp", 
+                                             hfi.inventory = "data/base/footprint/HFI_2019_v2.gdb/HFI_2019_v2", 
+                                             harvest.areas = harvest.areas,
+                                             recovery.curve = recovery.curve,
+                                             boundaries = "data/base/boundaries/HUC_8_NSR.shp", 
+                                             huc.id = HUC.id, 
+                                             hfi.year = 2019,
+                                             arcpy = arcpy,
+                                             numpy = numpy)
+        
+        # 2020 HFI
+        watershed.layer.2020 <- native_cover_mapping(landcover = "data/base/landcover/ABMIwetlandInventory.gdb/ABMIwetlandInventory", 
+                                             riparian = "data/base/landcover/LoticRiparianDigitalElevationModelDerived/Data/Shapefile/10TM_Offset/LoticRiparianDigitalElevationModelDerived.shp", 
+                                             hfi.inventory = "data/base/footprint/HFI_2020.gdb/HFI2020_Integrated", 
+                                             harvest.areas = harvest.areas,
+                                             recovery.curve = recovery.curve,
+                                             boundaries = "data/base/boundaries/HUC_8_NSR.shp", 
+                                             huc.id = HUC.id, 
+                                             hfi.year = 2020,
+                                             arcpy = arcpy,
+                                             numpy = numpy)
+        
         # 2021 HFI
         watershed.layer.2021 <- native_cover_mapping(landcover = "data/base/landcover/ABMIwetlandInventory.gdb/ABMIwetlandInventory", 
                                                      riparian = "data/base/landcover/LoticRiparianDigitalElevationModelDerived/Data/Shapefile/10TM_Offset/LoticRiparianDigitalElevationModelDerived.shp", 
@@ -106,7 +142,7 @@ library(sf)
 library(raster)
 
 # Define year
-hfi.years <- c(2010, 2021)
+hfi.years <- c(2010, 2018, 2019, 2020, 2021)
 
 # Initialize arcpy
 py_discover_config() # We need version 3.9
