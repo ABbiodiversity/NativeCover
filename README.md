@@ -1,6 +1,17 @@
-# Native Cover Indicator for Alberta
+<!--
+<img src="https://drive.google.com/uc?id=1fgYuG7jpnekZrkoL_PdVUnSiUFBFX-vI" alt="Logo" width="150" style="float: left; margin-right: 10px;">
+-->
 
+<img src="https://drive.google.com/uc?id=1szqLViKqTX5C1XF8uV7HbIst0i6Xvv7g" alt="Logo" width="300">
+
+
+# Native Cover Indicator for Alberta
 > Version 1.0 2024-04-25
+
+![Maintenance](https://img.shields.io/badge/Status-Maintenance-green)
+![Languages](https://img.shields.io/badge/Languages-R%20%7C%20Python-blue)
+![Programs](https://img.shields.io/badge/Programs-R%20%7C%20ArcPro-blue)
+
 
 ## Introduction
 
@@ -14,7 +25,13 @@ footprint.
 
 ## Repository Contents
 
-This repository contains the R code (**src/**) required for reproducing the results presented on [GeoDiscover Alberta](https://open.alberta.ca/opendata/gda-a582d6fe-b340-4f9b-9e7c-c7adeedbce7d). The Native Cover Indicator for Alberta is a geospatial product that presents the status of **AWNC** and **TNC** for all HUC 8 watersheds in Alberta at five timesteps: 2010, 2018, 2019, 2020, and 2021. Technical documentation describing the methodology and underlying data layers for this indicator can also be found on [GeoDiscover Alberta](https://open.alberta.ca/publications/native-cover-indicator-for-alberta). 
+This repository contains the R code (**1_code/**) required for reproducing the results presented on [GeoDiscover Alberta](https://open.alberta.ca/opendata/gda-a582d6fe-b340-4f9b-9e7c-c7adeedbce7d). The Native Cover Indicator for Alberta is a geospatial product that presents the status of **AWNC** and **TNC** for all HUC 8 watersheds in Alberta at five timesteps: 2010, 2018, 2019, 2020, and 2021. Technical documentation describing the methodology and underlying data layers for this indicator can also be found on [GeoDiscover Alberta](https://open.alberta.ca/publications/native-cover-indicator-for-alberta). 
+
+## Acknowledgements
+
+We would like to acknowledge that this work would not be possible without the dedication of staff at ABMI and Alberta Environment and Protected Areas. This would work not be possible without your guidance and expertise.
+
+## Support
 
 For any questions regarding the scripts presented in this repository, GeoDiscover product, technical documentation, or about other applications of this indicator, please contact Brandon Allen (ABMI Senior Terrestrial Ecologist) at brandon.allen@ualberta. 
 
