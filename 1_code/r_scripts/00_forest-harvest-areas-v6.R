@@ -5,6 +5,7 @@
 # Author: Brandon Allen
 # Objectives: Calculate the reference area proportions (2010) for coniferous and deciduous stands in each natural subregion
 # Keywords: Notes, Forest proportions 
+# Notes: This script is no longer required as we have updated to a more recent version of the ABMI backfill layer (7.0).
 
 ######################
 # Forest proportions # 

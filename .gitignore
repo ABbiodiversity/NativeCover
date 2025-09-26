@@ -2,6 +2,9 @@
 .Rhistory
 .RData
 .Ruserdata
-/data/**
-/results/**
+/0_data/**
+/2_pipeline/**
+/3_output/**
+/4_writing/**
+/5_presentations/**
 /beta/**

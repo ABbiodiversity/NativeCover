@@ -1,7 +1,7 @@
 #
 # Title: Calculating the Reference harvest area proportions using version 7 of the backfill layer
 # Created: July 13th, 2023
-# Last Updated: July 20th, 2023
+# Last Updated: May 13th, 2025
 # Author: Brandon Allen
 # Objectives: Calculate the reference area proportions (2010) for coniferous and deciduous stands in each natural subregion using version 7 of the backfill.
 # Keywords: Notes, Forest proportions 
@@ -22,11 +22,8 @@ library(sf)
 # Initialize arcpy #
 ####################
 
-py_discover_config() # We need version 3.7
-py_config() # Double check it is version 3.7
-
 # Set python 
-use_python(python = "C:/Users/ballen/miniconda3/envs/r-reticulate/python.exe")
+use_python(python = "C:/Users/ballen/AppData/Local/r-miniconda/envs/r-reticulate/python.exe")
 
 # Load arcpy
 arcpy <- import('arcpy') 
@@ -36,19 +33,29 @@ arcpy$env$parallelProcessingFactor <- "100%"
 
 # Define the geodatabase for storing results
 arcpy$CreateFileGDB_management(out_folder_path = paste0(getwd(), "/data/base/landcover/"), 
-                               out_name = "forest-areas-v7.gdb")
+                               out_name = "forest-areas.gdb")
 
 # Define workspace
-arcpy$env$workspace <- paste0(getwd(), "/data/base/landcover/forest-areas-v7.gdb")
+arcpy$env$workspace <- paste0(getwd(), "/data/base/landcover/forest-areas.gdb")
 
 # Define the natural subregions
 natural.subregions <- read_sf("data/base/boundaries/Natural_Regions_Subregions_of_Alberta.shp")
 region.list <- unique(natural.subregions$NSRNAME)
 
-# Select all of the forested areas from the backfill layer
-arcpy$Select_analysis(in_features = "D:/backfill/Veg7HF2010/gdb_SC_veg7hf_2010.gdb/vegv7hf2010", 
+# Select all of the forested areas from the backfill layer (Version 7.0, 2010 HFI)
+arcpy$Select_analysis(in_features = "D:/backfill/Version7.0/gdb_veghf_reference_condition_2010.gdb/veghf_2010", 
                       out_feature_class = "forested", 
                       where_clause =  paste0('"Combined_ChgByCWCS" IN ', "('AlpineLarch', 'Fir', 'Pine', 'Spruce', 'Conif', 'Decid', 'Mixedwood')"))
+
+# Select the timber harvest polygons based on the 2022 HFI
+arcpy$Select_analysis(in_features = paste0(getwd(), "/data/base/footprint/HFI2022_v1_1.gdb/HFI2022"), 
+                      out_feature_class = "harvest", 
+                      where_clause =  paste0('"FEATURE_TY" IN ', "('TIMBER-HARVEST-GREEN-AREA', 'TIMBER-HARVEST-WHITE-AREA')"))
+
+# Subset the forested polygons harvested polygons
+arcpy$PairwiseClip_analysis(in_features = "forested", 
+                            clip_features = "harvest",
+                            out_feature_class = "forest_harvest")
 
 harvest.areas <- data.frame(NSR = region.list,
                             Coniferous = NA,
@@ -56,7 +63,7 @@ harvest.areas <- data.frame(NSR = region.list,
 
 for (nsr in region.list) {
         
-        # Select watershed
+        # Select the natrual subregion
         arcpy$Select_analysis(in_features = "data/base/boundaries/Natural_Regions_Subregions_of_Alberta.shp", 
                               out_feature_class = "boundary", 
                               where_clause =  paste0('"NSRNAME" = ', "'", nsr, "'"))
@@ -67,7 +74,7 @@ for (nsr in region.list) {
                                     out_feature_class = "veg_hf")
         
         # Load layer
-        veg.in <- read_sf(dsn = "data/base/landcover/forest-areas-v7.gdb",
+        veg.in <- read_sf(dsn = "data/base/landcover/forest-areas.gdb",
                           layer = "veg_hf")
         
         # Subset to harvested areas
@@ -93,12 +100,10 @@ harvest.areas$Deciduous[is.na(harvest.areas$Deciduous)] <- 50
 
 comment(harvest.areas) <- c("Proportions of coniferous and deciduous stands based on 2010 harvested distribution.",
                           "This was chosen because 2010 is the reference condition for the BMF indicator.",
-                          "Includes only HARVEST-AREAS, includes HARVEST-AREA-WHITE-ZONE.",
-                          "HARVEST-AREAS-WHITE-ZONE is not in the 2018HFI.",
-                          "Therefore, we are looking for all 'potentially harvested' areas.",
+                          "Includes both Timber Harvest Green Area and White Areas as defined by the 2022 HFI.",
                           "Backfill version 7, HFI 2010.",
-                          "Calculated July 14th, 2023.")
-save(harvest.areas, file = "data/lookup/harvest-stand-areas_2010HFI_v7.Rdata")
+                          "Calculated May 13th, 2025.")
+save(harvest.areas, file = "data/lookup/harvest-stand-areas_2010HFI_backfillv7_v2.0.Rdata")
 
 rm(list=ls())
 gc()

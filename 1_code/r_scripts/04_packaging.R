@@ -3,7 +3,7 @@
 # Created: August 30th, 2023
 # Last Updated: August 30th, 2023
 # Author: Brandon Allen
-# Objectives: Packaging of the results 
+# Objectives: Packaging of the results for HUC-8 reporting
 # Keywords: Notes, Packaging
 #
 
@@ -32,6 +32,7 @@ native.cover.2018 <- read_sf("results/gis/2018/native_cover_HFI2018.shp")
 native.cover.2019 <- read_sf("results/gis/2019/native_cover_HFI2019.shp")
 native.cover.2020 <- read_sf("results/gis/2020/native_cover_HFI2020.shp")
 native.cover.2021 <- read_sf("results/gis/2021/native_cover_HFI2021.shp")
+native.cover.2022 <- read_sf("results/gis/2021/native_cover_HFI2022.shp")
 
 # Standardize the names
 native.cover <- native.cover.2010[, c("HUC_2", "HUC_4", "HUC_6", "HUC_8")]
