@@ -29,7 +29,7 @@ This repository contains the R code (**1_code/**) required for reproducing the r
 
 ## Acknowledgements
 
-We would like to acknowledge that this work would not be possible without the dedication of staff at ABMI and Alberta Environment and Protected Areas. This would work not be possible without your guidance and expertise.
+We would like to acknowledge that this indicator was developed by the dedicated staff at ABMI and Alberta Environment and Protected Areas. This work would not be possible without your guidance and expertise.
 
 ## Support
 
