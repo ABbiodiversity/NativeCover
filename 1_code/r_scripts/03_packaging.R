@@ -43,6 +43,7 @@ native.cover$TNC2018 <- native.cover.2018$UpCov
 native.cover$TNC2019 <- native.cover.2019$UpCov
 native.cover$TNC2020 <- native.cover.2020$UpCov
 native.cover$TNC2021 <- native.cover.2021$UpCov
+native.cover$TNC2022 <- native.cover.2022$UpCov
 
 # Add AWNC
 native.cover$AWNC2010 <- native.cover.2010$LowCov
@@ -50,6 +51,7 @@ native.cover$AWNC2018 <- native.cover.2018$LowCov
 native.cover$AWNC2019 <- native.cover.2019$LowCov
 native.cover$AWNC2020 <- native.cover.2020$LowCov
 native.cover$AWNC2021 <- native.cover.2021$LowCov
+native.cover$AWNC2022 <- native.cover.2022$LowCov
 
 # Save
-write_sf(obj = native.cover, dsn = "results/gis/native_cover_2010_2021.shp")
+write_sf(obj = native.cover, dsn = "results/gis/native_cover_2010_2022.shp")
