@@ -1,97 +1,92 @@
-#
-# Title: Visualization of "terrestrial" and "aquatic" native cover
-# Created: June 6th, 2022
-# Last Updated: September 18th, 2023
-# Author: Brandon Allen
-# Objectives: Visualize the two native cover indicators
-# Keywords: Notes, Visualization, Forest recovery, Simple versus complex recovery, Layer Boundaries
-#
+# ---
+# title: "Visualization of "terrestrial" and "aquatic" native cover
+# author: "Brandon Allen"
+# created: "2023-09-18"
+# inputs: ["3_output/bsc/native cover indicator per year"]
+# outputs: ["3_output/figures/summary figures"]
+# notes: 
+#   "This uses the outputs from the 04_packaging script to generate figures for reporting"
+# ---
 
-#########
-# Notes #
-#########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
-# 1) This analysis is run for each HUC 8 across the province.
-# 2) We are using the ABMI Alberta Wetland Inventory. Areas not delineated as "aquatic" habitats are upland
-# 3) Areas that fall within the Lotic Riparian layer are also delineated as "aquatic"
-#
-#################
-# Visualization # 
-#################~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# 1.0 Initializing environment ----
+# This section handles defining the input data 
+# and required functions.
 
 # Clear memory
 rm(list=ls())
 gc()
 
 # Load libraries
-library(abmi.themes)
 library(ggplot2)
 library(ggpubr)
 library(MetBrewer)
 library(sf)
 
 # Source scripts
-source("src/visualization_functions.R")
+source("1_code/r_scripts/visualization_functions.R")
 
 # Load the results
-native.cover.2010 <- read_sf("results/gis/2010/native_cover_HFI2010.shp")
-native.cover.2018 <- read_sf("results/gis/2018/native_cover_HFI2018.shp")
-native.cover.2019 <- read_sf("results/gis/2019/native_cover_HFI2019.shp")
-native.cover.2020 <- read_sf("results/gis/2020/native_cover_HFI2020.shp")
-native.cover.2021 <- read_sf("results/gis/2021/native_cover_HFI2021.shp")
+native.cover.2010 <- read_sf("3_output/reporting/bsc/native-cover_HFI2010.shp")
+native.cover.2018 <- read_sf("3_output/reporting/bsc/native-cover_HFI2018.shp")
+native.cover.2019 <- read_sf("3_output/reporting/bsc/native-cover_HFI2019.shp")
+native.cover.2020 <- read_sf("3_output/reporting/bsc/native-cover_HFI2020.shp")
+native.cover.2021 <- read_sf("3_output/reporting/bsc/native-cover_HFI2021.shp")
+native.cover.2022 <- read_sf("3_output/reporting/bsc/native-cover_HFI2022.shp")
 
 # Create the trend results
-terrestrial.trend <- data.frame(NC_2010 = native.cover.2010$UpCov,
-                                NC_2021 = native.cover.2021$UpCov,
-                                Difference = native.cover.2021$UpCov - native.cover.2010$UpCov)
+terrestrial.trend <- data.frame(NC_2010 = native.cover.2010$TNC,
+                                NC_2022 = native.cover.2022$TNC,
+                                Difference = native.cover.2022$TNC - native.cover.2010$TNC)
 
-aquatic.trend <- data.frame(NC_2010 = native.cover.2010$LowCov,
-                            NC_2021 = native.cover.2021$LowCov,
-                            Difference = native.cover.2021$LowCov - native.cover.2010$LowCov)
+aquatic.trend <- data.frame(NC_2010 = native.cover.2010$AWNC,
+                            NC_2022 = native.cover.2021$AWNC,
+                            Difference = native.cover.2022$AWNC - native.cover.2010$AWNC)
 
 # Calculate the differences
-native.cover.2021$UpDiff <- native.cover.2021$UpCov - native.cover.2010$UpCov
-native.cover.2021$LowDiff <- native.cover.2021$LowCov - native.cover.2010$LowCov
+native.cover.2022$UpDiff <- native.cover.2022$TNC - native.cover.2010$TNC
+native.cover.2022$LowDiff <- native.cover.2022$AWNC - native.cover.2010$AWNC
 
-###############
-# Terrestrial #
-###############
-
+# 2.0 Visualize Terrestrial Native Cover ----
 terrestrial.2010 <- nc_plot(data.in = native.cover.2010, 
-                            habitat = "UpCov", 
+                            habitat = "TNC", 
                             title = "TNC 2010")
 
 terrestrial.2018 <- nc_plot(data.in = native.cover.2018, 
-                            habitat = "UpCov", 
+                            habitat = "TNC", 
                             title = "TNC 2018")
 
 terrestrial.2019 <- nc_plot(data.in = native.cover.2019, 
-                            habitat = "UpCov", 
+                            habitat = "TNC", 
                             title = "TNC 2019")
 
 terrestrial.2020 <- nc_plot(data.in = native.cover.2020, 
-                            habitat = "UpCov", 
+                            habitat = "TNC", 
                             title = "TNC 2020")
 
 terrestrial.2021 <- nc_plot(data.in = native.cover.2021, 
-                            habitat = "UpCov", 
+                            habitat = "TNC", 
                             title = "TNC 2021")
 
-ggsave(filename = "results/figures/indicator/terrestrial-native-cover.png",
+terrestrial.2022 <- nc_plot(data.in = native.cover.2022, 
+                            habitat = "TNC", 
+                            title = "TNC 2022")
+
+ggsave(filename = "3_output/figures/indicator/terrestrial-native-cover.png",
        plot = ggarrange(terrestrial.2010, terrestrial.2018,
-                        terrestrial.2019, terrestrial.2020, terrestrial.2021,
+                        terrestrial.2019, terrestrial.2020, 
+                        terrestrial.2021, terrestrial.2022,
                         ncol = 3, nrow = 2),
        height = 2400,
        width = 2700,
        dpi = 100,
        units = "px")
 
-terrestrial.2010.2021 <- difference_plot(data.in = native.cover.2021, 
+terrestrial.2010.2022 <- difference_plot(data.in = native.cover.2022, 
                                          habitat = "UpDiff", 
                                          title = "")
 
-ggsave(filename = "results/figures/support/terrestrial-native-cover-trend-spatial.png",
-       plot = terrestrial.2010.2021,
+ggsave(filename = "3_output/figures/support/terrestrial-native-cover-trend-spatial.png",
+       plot = terrestrial.2010.2022,
        height = 1200,
        width = 900,
        dpi = 100,
@@ -99,11 +94,11 @@ ggsave(filename = "results/figures/support/terrestrial-native-cover-trend-spatia
 
 trend.plot <- trend_plot(data.in = terrestrial.trend, 
                          x = "2010", 
-                         y = "2021", 
+                         y = "2022", 
                          title = "Terrestrial Native Cover")
 
 
-ggsave(filename = "results/figures/support/terrestrial-native-cover-trend.png",
+ggsave(filename = "3_output/figures/support/terrestrial-native-cover-trend.png",
        plot = trend.plot,
        height = 800,
        width = 800,
@@ -122,55 +117,56 @@ trend.histogram <- ggplot(data = terrestrial.trend, aes(x = Difference, col = "#
         theme_light() +
         theme(axis.title = element_text(size=14),
               legend.title = element_text(size=14),
-              legend.text = element_text(size=14)) +
-        theme_abmi(font = "Montserrat")
+              legend.text = element_text(size=14))
 
-ggsave(filename = "results/figures/support/terrestrial-native-cover-histogram.png",
+ggsave(filename = "3_output/figures/support/terrestrial-native-cover-histogram.png",
        plot = trend.histogram,
        height = 800,
        width = 800,
        dpi = 100,
        units = "px")
 
-###########
-# Aquatic #
-###########
-
+# 3.0 Visualize Aquatic and Wetland Native Cover ----
 aquatic.2010 <- nc_plot(data.in = native.cover.2010, 
-                            habitat = "LowCov", 
+                            habitat = "AWNC", 
                             title = "AWNC 2010")
 
 aquatic.2018 <- nc_plot(data.in = native.cover.2018, 
-                            habitat = "LowCov", 
+                            habitat = "AWNC", 
                             title = "AWNC 2018")
 
 aquatic.2019 <- nc_plot(data.in = native.cover.2019, 
-                            habitat = "LowCov", 
+                            habitat = "AWNC", 
                             title = "AWNC 2019")
 
 aquatic.2020 <- nc_plot(data.in = native.cover.2020, 
-                            habitat = "LowCov", 
+                            habitat = "AWNC", 
                             title = "AWNC 2020")
 
 aquatic.2021 <- nc_plot(data.in = native.cover.2021, 
-                        habitat = "LowCov", 
+                        habitat = "AWNC", 
                         title = "AWNC 2021")
 
-ggsave(filename = "results/figures/indicator/aquatic-native-cover.png",
+aquatic.2022 <- nc_plot(data.in = native.cover.2022, 
+                        habitat = "AWNC", 
+                        title = "AWNC 2022")
+
+ggsave(filename = "3_output/figures/indicator/aquatic-native-cover.png",
        plot = ggarrange(aquatic.2010, aquatic.2018,
-                        aquatic.2019, aquatic.2020, aquatic.2021,
+                        aquatic.2019, aquatic.2020, 
+                        aquatic.2021, aquatic.2022,
                         ncol = 3, nrow = 2),
        height = 2400,
        width = 2700,
        dpi = 100,
        units = "px")
 
-aquatic.2010.2021 <- difference_plot(data.in = native.cover.2021, 
+aquatic.2010.2022 <- difference_plot(data.in = native.cover.2022, 
                                          habitat = "LowDiff", 
                                          title = "")
 
-ggsave(filename = "results/figures/support/aquatic-native-cover-trend-spatial.png",
-       plot = aquatic.2010.2021,
+ggsave(filename = "3_output/figures/support/aquatic-native-cover-trend-spatial.png",
+       plot = aquatic.2010.2022,
        height = 1200,
        width = 900,
        dpi = 100,
@@ -178,10 +174,10 @@ ggsave(filename = "results/figures/support/aquatic-native-cover-trend-spatial.pn
 
 trend.plot <- trend_plot(data.in = aquatic.trend, 
                          x = "2010", 
-                         y = "2021", 
+                         y = "2022", 
                          title = "Aquatic Native Cover")
 
-ggsave(filename = "results/figures/support/aquatic-native-cover-trend.png",
+ggsave(filename = "3_output/figures/support/aquatic-native-cover-trend.png",
        plot = trend.plot,
        height = 800,
        width = 800,
@@ -198,30 +194,26 @@ trend.histogram <- ggplot(data = aquatic.trend, aes(x = Difference, col = "#004f
         geom_vline(xintercept = 0) +
         xlim(c(-15,5)) +
         theme_light() +
-        theme(axis.title = element_text(size=14)) +
-        theme_abmi(font = "Montserrat")
+        theme(axis.title = element_text(size=14))
 
 
-ggsave(filename = "results/figures/support/aquatic-native-cover-histogram.png",
+ggsave(filename = "3_output/figures/support/aquatic-native-cover-histogram.png",
        plot = trend.histogram,
        height = 800,
        width = 800,
        dpi = 100,
        units = "px")
 
-#########################################
-# Aquatic versus Terrestrial comparison #
-#########################################
-
+# 4.0 Comparison of TNC and AWNC ----
 # Calculate the differences
-native.cover.2021$UpDiff <- native.cover.2021$UpCov - native.cover.2010$UpCov
-native.cover.2021$LowDiff <- native.cover.2021$LowCov - native.cover.2010$LowCov
+native.cover.2022$UpDiff <- native.cover.2022$TNC - native.cover.2010$TNC
+native.cover.2022$LowDiff <- native.cover.2022$AWNC - native.cover.2010$AWNC
 
-aquatic.vs.terrestiral <- ggplot(data = native.cover.2021, aes(x = UpDiff, y = LowDiff)) + 
+aquatic.vs.terrestiral <- ggplot(data = native.cover.2022, aes(x = UpDiff, y = LowDiff)) + 
         geom_point() +
         geom_abline(slope = 1) +
-        xlab("TNC Percent Change 2010-2021 (%)") +
-        ylab("AWNC Percent Change 2010-2021 (%)") +
+        xlab("TNC Percent Change 2010-2022 (%)") +
+        ylab("AWNC Percent Change 2010-2022 (%)") +
         ylim(c(-15,5)) +
         xlim(c(-15,5)) +
         theme_light() +
@@ -230,10 +222,9 @@ aquatic.vs.terrestiral <- ggplot(data = native.cover.2021, aes(x = UpDiff, y = L
               axis.text.y = element_text(size=16), 
               panel.border = element_rect(color = "black",
                                           fill = NA,
-                                          size = 1)) +
-        theme_abmi(font = "Montserrat")
+                                          size = 1))
 
-ggsave(filename = "results/figures/support/aquatic-terrestrial-2010-2021.png",
+ggsave(filename = "3_output/figures/support/aquatic-terrestrial-2010-2022.png",
        plot = aquatic.vs.terrestiral,
        height = 1000,
        width = 1000,
@@ -243,21 +234,9 @@ ggsave(filename = "results/figures/support/aquatic-terrestrial-2010-2021.png",
 rm(list=ls())
 gc()
 
-###################
-# Forest Recovery # 
-###################~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-# Clear memory
-rm(list=ls())
-gc()
-
-# Load libraries
-library(abmi.themes)
-library(ggplot2)
-library(MetBrewer)
-
+# 5.0 Visualize Forest Recovery Curves ----
 # Load data
-load("data/lookup/harvest-recovery-curves_80years.Rdata")
+load("0_data/external/lookup/harvest-recovery-curves_80years.Rdata")
 
 # Standardize the data
 harvest.recovery <- data.frame(Stand = c(rep("Deciduous", 81), 
@@ -291,7 +270,7 @@ recovery.curve <- ggplot(data = harvest.recovery, aes(x = Age, y = Recovery, fil
               panel.grid.major = element_blank())
 
 
-ggsave(filename = "results/figures/support/forest-recovery-curves.png",
+ggsave(filename = "3_output/figures/support/forest-recovery-curves.png",
        plot = recovery.curve,
        height = 800,
        width = 1200,
@@ -301,28 +280,16 @@ ggsave(filename = "results/figures/support/forest-recovery-curves.png",
 rm(list=ls())
 gc()
 
-##################################
-# Simple versus complex recovery #
-##################################~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-# Clear memory
-rm(list=ls())
-gc()
-
-# Load libraries
-library(abmi.themes)
-library(ggplot2)
-library(MetBrewer)
-
+# 6.0 Visualize comparison of recovery curve implementation ----
 # Load final results and previous iteration
-native.cover.2018 <- read_sf("results/gis/2018/native_cover_HFI2018.shp")
+native.cover.2018 <- read_sf("3_output/reporting/bsc/native-cover_HFI2018.shp")
 native.cover.2018.old <- read_sf("beta/backfil-recovery-curve/native_cover_HFI2018.shp")
 
 # Create the trend results
-terrestrial.trend <- data.frame(Simplified = native.cover.2018$UpCov,
+terrestrial.trend <- data.frame(Simplified = native.cover.2018$TNC,
                                 Backfill = native.cover.2018.old$UpCov)
 
-aquatic.trend <- data.frame(Simplified = native.cover.2018$LowCov,
+aquatic.trend <- data.frame(Simplified = native.cover.2018$AWNC,
                             Backfill = native.cover.2018.old$LowCov)
 
 terrestrial.figure <- ggplot(data = terrestrial.trend, aes(x = Backfill, y = Simplified)) + 
@@ -344,9 +311,7 @@ terrestrial.figure <- ggplot(data = terrestrial.trend, aes(x = Backfill, y = Sim
                                           fill = NA,
                                           size = 1))
 
-
-
-ggsave(filename = "results/figures/support/terrestrial-recovery-method-comparison-2018.png",
+ggsave(filename = "3_output/figures/support/terrestrial-recovery-method-comparison-2018.png",
        plot = terrestrial.figure,
        height = 800,
        width = 800,
@@ -372,7 +337,7 @@ aquatic.figure <- ggplot(data = aquatic.trend, aes(x = Backfill, y = Simplified)
                                           fill = NA,
                                           size = 1))
 
-ggsave(filename = "results/figures/support/aquatic-recovery-method-comparison-2018.png",
+ggsave(filename = "3_output/figures/support/aquatic-recovery-method-comparison-2018.png",
        plot = aquatic.figure,
        height = 800,
        width = 800,
@@ -382,21 +347,11 @@ ggsave(filename = "results/figures/support/aquatic-recovery-method-comparison-20
 rm(list=ls())
 gc()
 
-####################
-# Layer Boundaries # 
-####################~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-# Load libraries
-library(abmi.themes)
-library(ggplot2)
-library(MetBrewer)
-library(ggpubr)
-library(sf)
-
+# 7.0 Visualize the reference boundaries for the two indicators ----
 # Load base data
-aquatic.reference <- read_sf(dsn = "D:/abmi/NativeCover/data/base/reference_boundary.gdb/",
+aquatic.reference <- read_sf(dsn = "0_data/external/boundaries/reference_boundary.gdb/",
                              layer = "aquatic_reference")
-terrestrial.reference <- read_sf(dsn = "D:/abmi/NativeCover/data/base/reference_boundary.gdb/",
+terrestrial.reference <- read_sf(dsn = "0_data/external/boundaries/reference_boundary.gdb/",
                                  layer = "terrestrial_reference")
 
 aquatic.reference$Habitat <- "Aquatic"
@@ -411,7 +366,6 @@ aquatic.upland.boundary <- ggplot() +
         scale_fill_manual(values = c("#2C6582", alpha("#F9D14A", 0.2))) +
         scale_size_identity() +
         theme_light() +
-        theme_abmi(font = "Montserrat") +
         theme(axis.title = element_text(size=14),
               axis.text.x = element_text(size=14),
               axis.text.y = element_text(size=14),
@@ -419,7 +373,7 @@ aquatic.upland.boundary <- ggplot() +
               axis.line = element_line(colour = "black"),
               panel.border = element_rect(colour = "black", fill=NA, size=1))
 
-ggsave(filename = "results/figures/indicator/aquatic-riparian-upland-boundary.png",
+ggsave(filename = "3_output/figures/indicator/aquatic-riparian-upland-boundary.png",
        plot = aquatic.upland.boundary,
        height = 2400,
        width = 1600,

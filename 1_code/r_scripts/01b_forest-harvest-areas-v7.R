@@ -1,11 +1,10 @@
 # ---
 # title: "Defining proportion of harvest areas (Backfill Version 7.0)"
 # author: "Brandon Allen"
-# created: "2025-05-113"
+# created: "2025-05-13"
 # inputs: ["D:/backfill/Version7.0/gdb_veghf_reference_condition_2010.gdb/veghf_2010"; 
 #          "0_data/external/footprint/HFI2022_v1_1.gdb/HFI2022"; 
 #          "0_data/external/boundaries/Natural_Regions_Subregions_of_Alberta.shp"]
-
 # outputs: ["0_data/internal/lookup/harvest-stand-areas_2010HFI.Rdata"]
 # notes: 
 #   "This script calculate the reference area proportions (2010) for coniferous and 
