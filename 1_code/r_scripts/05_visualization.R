@@ -32,19 +32,20 @@ native.cover.2019 <- read_sf("3_output/reporting/bsc/native-cover_HFI2019.shp")
 native.cover.2020 <- read_sf("3_output/reporting/bsc/native-cover_HFI2020.shp")
 native.cover.2021 <- read_sf("3_output/reporting/bsc/native-cover_HFI2021.shp")
 native.cover.2022 <- read_sf("3_output/reporting/bsc/native-cover_HFI2022.shp")
+native.cover.2023 <- read_sf("3_output/reporting/bsc/native-cover_HFI2023.shp")
 
 # Create the trend results
 terrestrial.trend <- data.frame(NC_2010 = native.cover.2010$TNC,
-                                NC_2022 = native.cover.2022$TNC,
-                                Difference = native.cover.2022$TNC - native.cover.2010$TNC)
+                                NC_2023 = native.cover.2023$TNC,
+                                Difference = native.cover.2023$TNC - native.cover.2010$TNC)
 
 aquatic.trend <- data.frame(NC_2010 = native.cover.2010$AWNC,
-                            NC_2022 = native.cover.2021$AWNC,
-                            Difference = native.cover.2022$AWNC - native.cover.2010$AWNC)
+                            NC_2023 = native.cover.2023$AWNC,
+                            Difference = native.cover.2023$AWNC - native.cover.2010$AWNC)
 
 # Calculate the differences
-native.cover.2022$UpDiff <- native.cover.2022$TNC - native.cover.2010$TNC
-native.cover.2022$LowDiff <- native.cover.2022$AWNC - native.cover.2010$AWNC
+native.cover.2023$UpDiff <- native.cover.2023$TNC - native.cover.2010$TNC
+native.cover.2023$LowDiff <- native.cover.2023$AWNC - native.cover.2010$AWNC
 
 # 2.0 Visualize Terrestrial Native Cover ----
 terrestrial.2010 <- nc_plot(data.in = native.cover.2010, 
@@ -71,6 +72,10 @@ terrestrial.2022 <- nc_plot(data.in = native.cover.2022,
                             habitat = "TNC", 
                             title = "TNC 2022")
 
+terrestrial.2023 <- nc_plot(data.in = native.cover.2023, 
+                            habitat = "TNC", 
+                            title = "TNC 2023")
+
 ggsave(filename = "3_output/figures/indicator/terrestrial-native-cover.png",
        plot = ggarrange(terrestrial.2010, terrestrial.2018,
                         terrestrial.2019, terrestrial.2020, 
@@ -81,12 +86,12 @@ ggsave(filename = "3_output/figures/indicator/terrestrial-native-cover.png",
        dpi = 100,
        units = "px")
 
-terrestrial.2010.2022 <- difference_plot(data.in = native.cover.2022, 
+terrestrial.2010.2023 <- difference_plot(data.in = native.cover.2023, 
                                          habitat = "UpDiff", 
                                          title = "")
 
 ggsave(filename = "3_output/figures/support/terrestrial-native-cover-trend-spatial.png",
-       plot = terrestrial.2010.2022,
+       plot = terrestrial.2010.2023,
        height = 1200,
        width = 900,
        dpi = 100,
@@ -94,7 +99,7 @@ ggsave(filename = "3_output/figures/support/terrestrial-native-cover-trend-spati
 
 trend.plot <- trend_plot(data.in = terrestrial.trend, 
                          x = "2010", 
-                         y = "2022", 
+                         y = "2023", 
                          title = "Terrestrial Native Cover")
 
 
@@ -151,6 +156,10 @@ aquatic.2022 <- nc_plot(data.in = native.cover.2022,
                         habitat = "AWNC", 
                         title = "AWNC 2022")
 
+aquatic.2023 <- nc_plot(data.in = native.cover.2023, 
+                        habitat = "AWNC", 
+                        title = "AWNC 2023")
+
 ggsave(filename = "3_output/figures/indicator/aquatic-native-cover.png",
        plot = ggarrange(aquatic.2010, aquatic.2018,
                         aquatic.2019, aquatic.2020, 
@@ -161,12 +170,12 @@ ggsave(filename = "3_output/figures/indicator/aquatic-native-cover.png",
        dpi = 100,
        units = "px")
 
-aquatic.2010.2022 <- difference_plot(data.in = native.cover.2022, 
+aquatic.2010.2023 <- difference_plot(data.in = native.cover.2023, 
                                          habitat = "LowDiff", 
                                          title = "")
 
 ggsave(filename = "3_output/figures/support/aquatic-native-cover-trend-spatial.png",
-       plot = aquatic.2010.2022,
+       plot = aquatic.2010.2023,
        height = 1200,
        width = 900,
        dpi = 100,
@@ -174,7 +183,7 @@ ggsave(filename = "3_output/figures/support/aquatic-native-cover-trend-spatial.p
 
 trend.plot <- trend_plot(data.in = aquatic.trend, 
                          x = "2010", 
-                         y = "2022", 
+                         y = "2023", 
                          title = "Aquatic Native Cover")
 
 ggsave(filename = "3_output/figures/support/aquatic-native-cover-trend.png",
@@ -206,10 +215,10 @@ ggsave(filename = "3_output/figures/support/aquatic-native-cover-histogram.png",
 
 # 4.0 Comparison of TNC and AWNC ----
 # Calculate the differences
-native.cover.2022$UpDiff <- native.cover.2022$TNC - native.cover.2010$TNC
-native.cover.2022$LowDiff <- native.cover.2022$AWNC - native.cover.2010$AWNC
+native.cover.2023$UpDiff <- native.cover.2023$TNC - native.cover.2010$TNC
+native.cover.2023$LowDiff <- native.cover.2023$AWNC - native.cover.2010$AWNC
 
-aquatic.vs.terrestiral <- ggplot(data = native.cover.2022, aes(x = UpDiff, y = LowDiff)) + 
+aquatic.vs.terrestiral <- ggplot(data = native.cover.2023, aes(x = UpDiff, y = LowDiff)) + 
         geom_point() +
         geom_abline(slope = 1) +
         xlab("TNC Percent Change 2010-2022 (%)") +
@@ -224,7 +233,7 @@ aquatic.vs.terrestiral <- ggplot(data = native.cover.2022, aes(x = UpDiff, y = L
                                           fill = NA,
                                           size = 1))
 
-ggsave(filename = "3_output/figures/support/aquatic-terrestrial-2010-2022.png",
+ggsave(filename = "3_output/figures/support/aquatic-terrestrial-2010-2023.png",
        plot = aquatic.vs.terrestiral,
        height = 1000,
        width = 1000,

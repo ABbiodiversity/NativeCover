@@ -33,7 +33,7 @@ arcpy$env$parallelProcessingFactor <- "100%"
 # This section merges the individual watershed units into singular geodatabases
 
 # Define year
-hfi.years <- c(2010, 2018, 2019, 2020, 2021, 2022)
+hfi.years <- c(2010, 2018, 2019, 2020, 2021, 2022, 2023)
 
 # For each year, combine the tiles into a single dataset
 for (year in hfi.years) {

@@ -37,7 +37,7 @@ watershed.template <- read_sf("0_data/external/boundaries/HUC_8_EPSG3400.shp")
 # This section generates the watershed summaries
 
 # Define year
-hfi.years <- c(2010, 2018, 2019, 2020, 2021, 2022)
+hfi.years <- c(2010, 2018, 2019, 2020, 2021, 2022, 2023)
 
 # For each year, combine the tiles into a single dataset
 for (year in hfi.years) {
@@ -114,6 +114,7 @@ native.cover.2019 <- read_sf("3_output/reporting/bsc/native-cover_HFI2019.shp")
 native.cover.2020 <- read_sf("3_output/reporting/bsc/native-cover_HFI2020.shp")
 native.cover.2021 <- read_sf("3_output/reporting/bsc/native-cover_HFI2021.shp")
 native.cover.2022 <- read_sf("3_output/reporting/bsc/native-cover_HFI2022.shp")
+native.cover.2023 <- read_sf("3_output/reporting/bsc/native-cover_HFI2023.shp")
 
 # Standardize the names
 native.cover <- native.cover.2010[, c("HUC_2", "HUC_4", "HUC_6", "HUC_8")]
@@ -125,6 +126,7 @@ native.cover$TNC2019 <- native.cover.2019$TNC
 native.cover$TNC2020 <- native.cover.2020$TNC
 native.cover$TNC2021 <- native.cover.2021$TNC
 native.cover$TNC2022 <- native.cover.2022$TNC
+native.cover$TNC2023 <- native.cover.2023$TNC
 
 # Add AWNC
 native.cover$AWNC2010 <- native.cover.2010$AWNC
@@ -133,9 +135,10 @@ native.cover$AWNC2019 <- native.cover.2019$AWNC
 native.cover$AWNC2020 <- native.cover.2020$AWNC
 native.cover$AWNC2021 <- native.cover.2021$AWNC
 native.cover$AWNC2022 <- native.cover.2022$AWNC
+native.cover$AWNC2023 <- native.cover.2023$AWNC
 
 # Save
-write_sf(obj = native.cover, dsn = "3_output/reporting/bsc/native_cover_2010_2022.shp")
+write_sf(obj = native.cover, dsn = "3_output/reporting/bsc/native_cover_2010_2023.shp")
 
 rm(list=ls())
 gc()

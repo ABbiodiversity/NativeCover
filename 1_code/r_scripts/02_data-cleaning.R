@@ -78,10 +78,10 @@ clusterEvalQ(core.input, {
 # various spatial scales (see 06_reporting for an example).
 
 # 2.1 Footprint Cleaning ----
-# Function has a catch to only update the names in the 2022 hfi
+# Function has a catch to correct each year as appropriate
 
 # Standardize the harvest area polygons
-hfi.series <- c(2010, 2018, 2019, 2020, 2021, 2022)
+hfi.series <- c(2010, 2018, 2019, 2020, 2021, 2022, 2023)
 parLapply(core.input, 
           as.list(hfi.series), 
           fun = function(hfi) tryCatch(footprint_cleaning(hfi.inventory = hfi.paths,
@@ -92,7 +92,6 @@ parLapply(core.input,
 
 # 2.2 Native Cover Cleaning ----
 # Process the individual watershed units
-hfi.series <- c(2010, 2018, 2019, 2020, 2021, 2022)
 foreach(hfi = hfi.series) %dopar% 
         
         parLapply(core.input, 
