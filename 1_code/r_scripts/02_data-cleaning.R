@@ -76,6 +76,9 @@ clusterEvalQ(core.input, {
 # This section standardizes the human footprint inventories based on the latest standard
 # and calculates the native cover indicator. The polygons can then be aggregated to 
 # various spatial scales (see 06_reporting for an example).
+#
+# As regeneration curves are applied to other feature types, additional standardization
+# of feature types within the human footprint inventory will be required.
 
 # 2.1 Footprint Cleaning ----
 # Function has a catch to correct each year as appropriate
