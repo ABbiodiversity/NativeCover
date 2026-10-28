@@ -412,7 +412,8 @@ native_cover_summary <- function(current, reference, region.id, index = "Index",
         reference.condition <- read_sf(dsn = geodatabase,
                                        layer = "reference_region")
         
-        area.km <- sum(current.condition$Recovery * current.condition$Shape_Area) / 1000000
+        area.km.cur <- sum(current.condition$Recovery * current.condition$Shape_Area) / 1000000
+        area.km.ref <- sum(reference.condition$Recovery * reference.condition$Shape_Area) / 1000000
         area.condition <- (sum(current.condition$Recovery * current.condition$Shape_Area) /
                                    sum(reference.condition$Recovery * reference.condition$Shape_Area)) * 100
         
@@ -428,12 +429,16 @@ native_cover_summary <- function(current, reference, region.id, index = "Index",
         
         if(index == "Area") {
                 
-                return(area.km)
+                results <- c(area.km.cur, area.km.ref)
+                names(results) <- c("Current", "Reference")
+                return(results)
         }
         
         if(index == "Both") {
                 
-                return(c(area.condition, area.km))
+                results <- c(area.condition, area.km.cur, area.km.ref)
+                names(results) <- c("Index", "Current", "Reference")
+                return(results)
         }
         
 }
