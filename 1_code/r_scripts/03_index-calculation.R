@@ -88,7 +88,7 @@ foreach(hfi = hfi_series) %dopar%
                   fun = function(HUC_id) tryCatch(native_cover_index(landcover = "0_data/external/landcover/ABMIwetlandInventory.gdb/ABMIwetlandInventory",
                                                                      riparian = "0_data/external/landcover/LoticRiparianDigitalElevationModelDerived/Data/Shapefile/10TM_Offset/LoticRiparianDigitalElevationModelDerived.shp",
                                                                      hfi_inventory = paste0("2_pipeline/hfi_", hfi, ".gdb/hfi_", hfi),
-                                                                     geodatabase_path = paste0("2_pipeline/", hfi, "_update"), 
+                                                                     geodatabase_path = paste0("2_pipeline/", hfi), 
                                                                      boundaries = "0_data/external/boundaries/HUC_8_NSR.shp", 
                                                                      harvest_areas = harvest_areas,
                                                                      recovery_curve = recovery_curve,
