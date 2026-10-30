@@ -33,10 +33,10 @@ arcpy$env$parallelProcessingFactor <- "100%"
 # This section merges the individual watershed units into singular geodatabases
 
 # Define year
-hfi.years <- c(2010, 2018, 2019, 2020, 2021, 2022, 2023)
+hfi_years <- c(2010, 2018, 2019, 2020, 2021, 2022, 2023)
 
 # For each year, combine the tiles into a single dataset
-for (year in hfi.years) {
+for (year in hfi_years) {
         
         # Create geodatabases
         arcpy$CreateFileGDB_management(out_folder_path = paste0(getwd(), "/3_output/gis/"), 
@@ -47,15 +47,15 @@ for (year in hfi.years) {
         
         
         # Define the list of geodatabases that are required for the merge
-        tile.path <- list.files(paste0(getwd(), "/2_pipeline/", year, "/"), full.names = TRUE)
-        tile.list <- list(Terrestrial = paste0(tile.path, "/terrestrial_native_cover"),
-                          Aquatic = paste0(tile.path, "/aquatic_native_cover"))
+        tile_path <- list.files(paste0(getwd(), "/2_pipeline/", year, "/"), full.names = TRUE)
+        tile_list <- list(Terrestrial = paste0(tile_path, "/terrestrial_native_cover"),
+                          Aquatic = paste0(tile_path, "/aquatic_native_cover"))
         
-        # For each layer, recalculate the total area (TotalArea) of polygons and the recovery metric (Recovery)
-        for(layer in names(tile.list)) {
+        # Merge layers together
+        for(layer in names(tile_list)) {
                 
                 # Create the merged layer
-                arcpy$Merge_management(inputs = paste(tile.list[[layer]], collapse = ";"), 
+                arcpy$Merge_management(inputs = paste(tile_list[[layer]], collapse = ";"), 
                                        output = paste0(getwd(), "/3_output/gis/", layer, "_", year, ".gdb/native_cover"))
                 
     
