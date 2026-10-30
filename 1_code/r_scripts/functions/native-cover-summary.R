@@ -14,8 +14,8 @@
 native_cover_summary <- function(gdb_path, region_id, index = "Index", geodatabase, arcpy) {
         
         # Clip to the region of interest
-        arcpy$PairwiseClip_analysis(in_features = gdb.path, 
-                                    clip_features = region.id, 
+        arcpy$PairwiseClip_analysis(in_features = gdb_path, 
+                                    clip_features = region_id, 
                                     out_feature_class = "native_cover")
         
         # Load polygon into R to calculate the final score
