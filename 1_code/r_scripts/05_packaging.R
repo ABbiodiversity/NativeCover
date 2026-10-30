@@ -19,13 +19,12 @@ gc()
 # Load libraries and functions
 library(reticulate)
 library(sf)
-source("1_code/r_scripts/native-cover_functions.R")
+source("1_code/r_scripts/functions/native-cover-summary.R")
 
 # Initialize ArcPy
 # Set python 
 use_python(python = "C:/Program Files/ArcGIS/Pro/bin/Python/envs/arcgispro-py3/python.exe")
 arcpy <- import('arcpy') 
-numpy <- import("numpy", convert = FALSE)
 
 # Define parallel processing factor
 arcpy$env$parallelProcessingFactor <- "100%"
@@ -54,7 +53,6 @@ for (year in hfi.years) {
         native.cover.results$Year <- year
         native.cover.results$AWNC <- NA
         native.cover.results$TNC <- NA
-        rownames(native.cover.results) <- native.cover.results$HUC_8
         
         ############################
         # Native Cover Calculation # 
@@ -71,15 +69,13 @@ for (year in hfi.years) {
                 region.path <- paste0(arcpy$env$workspace, "/boundary")
                 
                 # Aquatic and Wetland Native Cover
-                native.cover.results[native.cover.results$HUC_8 == region, "AWNC"] <- native_cover_summary(current = paste0(getwd(), "/3_output/gis/Aquatic_Current_", year, ".gdb/native_cover"), 
-                                                                                                           reference = paste0(getwd(), "/3_output/gis/Aquatic_Reference_", year, ".gdb/native_cover"), 
+                native.cover.results[native.cover.results$HUC_8 == region, "AWNC"] <- native_cover_summary(gdb.path = paste0(getwd(), "/3_output/gis/Aquatic_", year, ".gdb/native_cover"), 
                                                                                                            region.id = region.path, 
                                                                                                            index = "Index",
                                                                                                            geodatabase = arcpy$env$workspace, 
                                                                                                            arcpy = arcpy)
                 # Terrestrial Native Cover
-                native.cover.results[native.cover.results$HUC_8 == region, "TNC"] <- native_cover_summary(current = paste0(getwd(), "/3_output/gis/Terrestrial_Current_", year, ".gdb/native_cover"), 
-                                                                                                          reference = paste0(getwd(), "/3_output/gis/Terrestrial_Reference_", year, ".gdb/native_cover"), 
+                native.cover.results[native.cover.results$HUC_8 == region, "TNC"] <- native_cover_summary(gdb.path = paste0(getwd(), "/3_output/gis/Terrestrial_", year, ".gdb/native_cover"), 
                                                                                                           region.id = region.path, 
                                                                                                           index = "Index",
                                                                                                           geodatabase = arcpy$env$workspace, 
@@ -118,7 +114,7 @@ native.cover.2023 <- read_sf("3_output/reporting/bsc/native-cover_HFI2023.shp")
 
 # Standardize the names
 native.cover <- native.cover.2010[, c("HUC_2", "HUC_4", "HUC_6", "HUC_8")]
-
+# Only reporting on the 2010, 2020, and 2023 results
 # Add TNC
 native.cover$TNC2010 <- native.cover.2010$TNC
 native.cover$TNC2018 <- native.cover.2018$TNC
